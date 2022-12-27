@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux Just For Fun &mdash; leelongcrazy's blog</title>
+  <meta name="author" content="leelongcrazy">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="/favicon.png" rel="icon">
+
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">leelongcrazy's blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li >
+        <a href="/category/article.html">Article</a>
+      </li>
+      <li >
+        <a href="/category/books.html">Books</a>
+      </li>
+      <li >
+        <a href="/category/cpp.html">Cpp</a>
+      </li>
+      <li >
+        <a href="/category/import.html">Import</a>
+      </li>
+      <li >
+        <a href="/category/it.html">It</a>
+      </li>
+      <li >
+        <a href="/category/movie.html">Movie</a>
+      </li>
+      <li class="active">
+        <a href="/category/software.html">Software</a>
+      </li>
+      <li >
+        <a href="/category/tech.html">Tech</a>
+      </li>
+      <li >
+        <a href="/category/web.html">Web</a>
+      </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">Linux Just For Fun</h1>
+    <p class="meta">
+<time datetime="2022-01-28T17:00:00+08:00" pubdate>Fri 28 January 2022</time>    </p>
+</header>
+
+  <div class="entry-content"><h2>用户权限</h2>
+<h4>查看当前用户组</h4>
+<p><code>$ groups</code></p>
+<h4>sudo 免密码</h4>
+<div class="highlight"><pre><span></span><code><span class="err">echo &quot;username ALL=(ALL)NOPASSWD:ALL&quot; &gt;&gt; /etc/sudoers.d/010_username_nopasswd</span>
+<span class="err"># 对指定命令免密码, 将ALL替换为命令的绝对路径即可</span>
+<span class="err">echo &quot;username ALL=(ALL)NOPASSWD:/bin/apt&quot; &gt;&gt; /etc/sudoers.d/010_username_nopasswd</span>
+</code></pre></div>
+
+
+<h2>目录/文件操作</h2>
+<h4>查找文件位置</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 方法1</span>
+find path -name fileName
+<span class="c1"># 方法2   从数据库中查找, 速度更快</span>
+locate fileName
+</code></pre></div>
+
+
+<h4>对目录下文件内容中的指定字符进行替换</h4>
+<div class="highlight"><pre><span></span><code>grep -rl  <span class="s1">&#39;windows&#39;</span> ./path <span class="p">|</span> xargs sed -i <span class="s1">&#39;s/windows/linux/g&#39;</span>
+
+<span class="c1"># 将列出文件的文件名中的空格替换为?</span>
+ls ./ <span class="p">|</span> tr <span class="s2">&quot; &quot;</span> <span class="s2">&quot;\?&quot;</span>
+</code></pre></div>
+
+
+<h4>查找指定字符串</h4>
+<div class="highlight"><pre><span></span><code>grep -r -e <span class="s2">&quot;patch_string&quot;</span> path
+</code></pre></div>
+
+
+<h4>使用sed获取文件中指定的内容</h4>
+<div class="highlight"><pre><span></span><code>cat test.txt<span class="p">|</span> sed -r <span class="s1">&#39;s/.*(bit.*[0-9]{1,2}).*/\1/&#39;</span>
+</code></pre></div>
+
+
+<p>\1 代表第一个配置结果，括号内的匹配内容</p>
+<p>如遇空格，用\转义</p>
+<h4>sed 查看文件指定行的内容</h4>
+<div class="highlight"><pre><span></span><code>sed -n -i <span class="s2">&quot;66p&quot;</span> <span class="nv">$file_name</span>  <span class="c1"># 查看文件file_name第66行的内容</span>
+</code></pre></div>
+
+
+<h4>sed 替换指定行内容</h4>
+<div class="highlight"><pre><span></span><code>sed -i <span class="s2">&quot;66c</span><span class="si">${</span><span class="nv">value</span><span class="si">}</span><span class="s2">&quot;</span> <span class="nv">$file_name</span> <span class="c1"># 将文件file_name第66行的内容用value变量替换</span>
+</code></pre></div>
+
+
+<h4>文件树目录显示</h4>
+<p>tree -L 1  一级目录显示，相比tree 直接显示，显示的信息少一些，更美观，不至于屏幕一下子下拉太多完全看不过来。数字可以更改。</p>
+<p>示例：</p>
+<div class="highlight"><pre><span></span><code>➜  vscode git:<span class="o">(</span>main<span class="o">)</span> tree -L <span class="m">1</span>
+.
+├── CONTRIBUTING.md
+├── LICENSE.txt
+├── README.md
+├── SECURITY.md
+├── ThirdPartyNotices.txt
+├── build
+├── cglicenses.json
+├── cgmanifest.json
+├── extensions
+├── gulpfile.js
+├── package.json
+├── product.json
+├── remote
+├── resources
+├── scripts
+├── src
+├── <span class="nb">test</span>
+├── tsfmt.json
+└── yarn.lock
+</code></pre></div>
+
+
+<h2>网络配置</h2>
+<h4>防火墙配置</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 显示防火墙状态</span>
+ufw status
+
+<span class="c1"># 禁止服务</span>
+ufw deny serviceName
+
+<span class="c1"># 禁止端口</span>
+ufw deny portName/tcp<span class="o">(</span>or udp<span class="o">)</span>
+
+<span class="c1"># 只允许从某IP端访问主机指定端口</span>
+ufw allow from <span class="m">192</span>.168.1.1/24 to any port portName
+
+<span class="c1"># 删除防火墙规则</span>
+ufw status nubmered
+ufw delete number
+ufw delete deny serviceName<span class="o">(</span>or portName<span class="o">)</span>
+</code></pre></div>
+
+
+<h4>Ubunut20.04 设置静态IP地址</h4>
+<p>编辑文件<code>/etc/netplan/00-network-manager-all.yaml</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Let NetworkManager manage all devices on this system</span>
+network:
+  version: <span class="m">2</span>
+  renderer: NetworkManager
+  ethernets:
+    eth0:
+      dhcp4: no
+      dhcp6: no
+      addresses: <span class="o">[</span><span class="m">192</span>.168.1.111/24<span class="o">]</span>
+      gateway4: <span class="m">192</span>.168.1.1
+      nameservers:
+        addresses: <span class="o">[</span><span class="m">114</span>.114.114.114<span class="o">]</span>
+</code></pre></div>
+
+
+<h4>查看监听端口</h4>
+<div class="highlight"><pre><span></span><code>netstat -ntl
+<span class="c1"># netstat -l</span>
+
+<span class="c1"># 查看占用端口的进程</span>
+
+netstat -tunlp <span class="p">|</span>grep 端口号
+</code></pre></div>
+
+
+<h2>开机启动</h2>
+<h4>1. 记录一个和操作系统有关的问题，Ubuntu20 增加开机脚本到启动项</h4>
+<div class="highlight"><pre><span></span><code><span class="n">#1</span><span class="p">.</span><span class="w"> </span><span class="n">编辑文件</span><span class="w"></span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">vi</span><span class="w"> </span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">systemd</span><span class="o">/</span><span class="k">system</span><span class="o">/</span><span class="n">rc</span><span class="o">-</span><span class="k">local</span><span class="p">.</span><span class="n">service</span><span class="w"></span>
+<span class="n">#在末尾增加内容</span><span class="err">：</span><span class="w"></span>
+<span class="o">[</span><span class="n">Install</span><span class="o">]</span><span class="w"></span>
+<span class="n">WantedBy</span><span class="o">=</span><span class="n">multi</span><span class="o">-</span><span class="k">user</span><span class="p">.</span><span class="n">target</span><span class="w"></span>
+<span class="k">Alias</span><span class="o">=</span><span class="n">rc</span><span class="o">-</span><span class="k">local</span><span class="p">.</span><span class="n">service</span><span class="w"></span>
+
+<span class="n">#2</span><span class="p">.</span><span class="n">新增</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rc</span><span class="p">.</span><span class="k">local</span><span class="w"> </span><span class="n">文件</span><span class="err">，</span><span class="n">在文件中添加启动项脚本文件或命令</span><span class="w"></span>
+
+<span class="n">#赋予</span><span class="w"> </span><span class="n">rc</span><span class="p">.</span><span class="k">local</span><span class="w"> </span><span class="n">执行权限</span><span class="w"></span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">chmox</span><span class="w"> </span><span class="o">+</span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rc</span><span class="p">.</span><span class="k">local</span><span class="w"></span>
+
+<span class="n">#3</span><span class="p">.</span><span class="w"> </span><span class="n">创建软链接</span><span class="w"></span>
+<span class="k">ln</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">systemd</span><span class="o">/</span><span class="k">system</span><span class="o">/</span><span class="n">rc</span><span class="o">-</span><span class="k">local</span><span class="p">.</span><span class="n">service</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">systemd</span><span class="o">/</span><span class="k">system</span><span class="o">/</span><span class="w"></span>
+</code></pre></div>
+
+
+<p><a href="https://www.himstudy.net/%E4%B8%BAubuntu-server-20-04%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF/">【参考文章: 为Ubuntu Server 20.04设置开机自启】</a></p>
+<h4>2. 在 <code>/etc/init.d/</code>目录下编辑启动脚本</h4>
+<p>示例脚本：</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">### BEGIN INIT INFO</span>
+<span class="c1">#</span>
+<span class="c1"># Provides:  location_server</span>
+<span class="c1"># Required-Start:   $local_fs  $remote_fs</span>
+<span class="c1"># Required-Stop:    $local_fs  $remote_fs</span>
+<span class="c1"># Default-Start:    2 3 4 5</span>
+<span class="c1"># Default-Stop:     0 1 6</span>
+<span class="c1"># Short-Description: cups-server  stopscript</span>
+<span class="c1"># Description:  This file should be used to construct scripts to be placed in /etc/init.d.</span>
+<span class="c1">#</span>
+<span class="c1">### END INIT INFO</span>
+
+
+sudo systemctl stop cups
+sudo systemctl stop avahi-daemon
+sudo systemctl stop avahi-daemon.socket
+</code></pre></div>
+
+
+<p>然后：</p>
+<div class="highlight"><pre><span></span><code>sudo update-rc.d stop_cups.sh defaults <span class="m">90</span> 
+</code></pre></div>
+
+
+<p>90表示优先级，越高表示执行的越晚。优先级范围：0~90</p>
+<h4>删除启动项</h4>
+<div class="highlight"><pre><span></span><code>sudo update-rc.d -f apache2 remove
+sudo update-rc.d -f nginx remove
+</code></pre></div>
+
+
+<h2>curl用法</h2>
+<p>curl -L 会让HTTP请求跟随服务器的重定向，默认不跟随。</p>
+<div class="highlight"><pre><span></span><code><span class="o">-</span><span class="n">o</span> <span class="p">,</span> <span class="err">小写，将服务器回应保存成文件，相当于</span> <span class="n">wget命令</span>
+
+<span class="o">-</span><span class="n">O</span> <span class="p">,</span><span class="err">大写，将服务器回应保存成文件，并将</span><span class="n">URL最后部分作为保存文件名</span><span class="err">。</span>
+</code></pre></div>
+
+
+<p><a href="https://www.ruanyifeng.com/blog/2019/09/curl-reference.html">【更多参考：curl 的用法指南】</a></p>
+<h2>服务进程</h2>
+<h4>查看全部服务</h4>
+<div class="highlight"><pre><span></span><code>sudo service --status-all
+</code></pre></div>
+
+
+<h4>关闭服务</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 停止服务</span>
+sudo systemctl disable service.name
+
+ <span class="c1"># 停止服务</span>
+ sudo service service.name stop
+</code></pre></div>
+
+
+<h2>关闭杀不掉进程，服务 的另一种办法</h2>
+<ol>
+<li>在<code>/etc/init.d/</code>下新建一个脚本文件，比如：<code>stop.sh</code></li>
+</ol>
+<div class="highlight"><pre><span></span><code> <span class="o">#!/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+ <span class="o">###</span> <span class="k">BEGIN</span> <span class="n">INIT</span> <span class="n">INFO</span>
+ <span class="o">#</span>
+ <span class="o">#</span> <span class="n">Provides</span><span class="p">:</span>  <span class="n">location_server</span>
+ <span class="o">#</span> <span class="n">Required</span><span class="o">-</span><span class="k">Start</span><span class="p">:</span>   <span class="err">$</span><span class="n">local_fs</span>  <span class="err">$</span><span class="n">remote_fs</span>
+ <span class="o">#</span> <span class="n">Required</span><span class="o">-</span><span class="n">Stop</span><span class="p">:</span>    <span class="err">$</span><span class="n">local_fs</span>  <span class="err">$</span><span class="n">remote_fs</span> 
+ <span class="o">#</span> <span class="k">Default</span><span class="o">-</span><span class="k">Start</span><span class="p">:</span>    <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span>
+ <span class="o">#</span> <span class="k">Default</span><span class="o">-</span><span class="n">Stop</span><span class="p">:</span>     <span class="mi">0</span> <span class="mi">1</span> <span class="mi">6</span>
+ <span class="o">#</span> <span class="n">Short</span><span class="o">-</span><span class="n">Description</span><span class="p">:</span> <span class="n">cups</span><span class="o">-</span><span class="n">server</span>  <span class="n">stopscript</span>
+ <span class="o">#</span> <span class="n">Description</span><span class="p">:</span>  <span class="n">This</span> <span class="n">file</span> <span class="n">should</span> <span class="n">be</span> <span class="n">used</span> <span class="k">to</span> <span class="n">construct</span> <span class="n">scripts</span> <span class="k">to</span> <span class="n">be</span> <span class="n">placed</span> <span class="k">in</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="p">.</span>
+ <span class="o">#</span>
+ <span class="o">###</span> <span class="k">END</span> <span class="n">INIT</span> <span class="n">INFO</span>
+
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">stop</span> <span class="n">cups</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">stop</span> <span class="n">avahi</span><span class="o">-</span><span class="n">daemon</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">stop</span> <span class="n">avahi</span><span class="o">-</span><span class="n">daemon</span><span class="p">.</span><span class="n">socket</span>
+</code></pre></div>
+
+
+<ol>
+<li>
+<p>对脚本赋予执行权限</p>
+</li>
+<li>
+<p>将脚本增加到开机启动项中</p>
+<p><code>sh
+sudo upate-rc.d stop.sh defaults 90</code></p>
+</li>
+</ol>
+<h2>终端 shell 相关</h2>
+<p>定义变量，等号附近不能有空格</p>
+<h4><strong>shell判断文件是否存在</strong></h4>
+<div class="highlight"><pre><span></span><code>-e filename 如果 filename存在，则为真 
+-d filename 如果 filename为目录，则为真 
+-f filename 如果 filename为常规文件，则为真 
+-L filename 如果 filename为符号链接，则为真 
+-r filename 如果 filename可读，则为真 
+-w filename 如果 filename可写，则为真 
+-x filename 如果 filename可执行，则为真 
+-s filename 如果文件长度不为0，则为真 
+-h filename 如果文件是软链接，则为真
+</code></pre></div>
+
+
+<p><a href="https://blog.csdn.net/m0_38039437/article/details/100160042">参考文章</a></p>
+<h4>终端光标移动</h4>
+<p>ctrl + a : 行首</p>
+<p>ctrl + e : 行尾</p>
+<p>ctrl + u : 删除光标位置至行首</p>
+<p>ctrl + K : 删除光标位置至行尾</p>
+<p>ctrl + &lt;-/-&gt; ： 按单词左右移动</p>
+<p>ctrl + p : 上一条命令</p>
+<p>ctrl + n : 下一条命令</p>
+<p>ctrl + r : 命令搜索</p>
+<p>ctrl + f : 光标向后移动一个字符</p>
+<p>ctrl + b : 光标向前移动一个字符</p>
+<p>!?string? : 执行含有string字符串的最新命令</p>
+<p><a href="https://zhidao.baidu.com/question/2079334885097505548.html">参考资料</a></p>
+<p>$0 : 代表当前执行文件</p>
+<p>$1 : 执行文件后面的紧跟的第一个文件名</p>
+<p>dirname :  获取文件的绝对路径</p>
+<p>2&gt;/dev/null : 将标准错误信息隐藏</p>
+<h2>将指定路径注册进path环境</h2>
+<div class="highlight"><pre><span></span><code># .zshrc
+export PATH=your_path:<span class="cp">${</span><span class="n">PATH</span><span class="cp">}</span>
+</code></pre></div>
+
+
+<h2>in fedora terminal tmux</h2>
+<h6>ctrl + b, % : 竖直分屏</h6>
+<h6>ctrl + b, " : 垂直分屏</h6>
+<p><a href="https://www.ruanyifeng.com/blog/2019/10/tmux.html">相关资料</a></p>
+<h2>ssh代理转发</h2>
+<h5>本地端口转发</h5>
+<div class="highlight"><pre><span></span><code>* 本地主机执行:
+ssh -L localHostPort:RemoteHost:RemoteHostPort -fN sshServer
+
+* 然后再本地主机执行：
+举例：
+ssh <span class="m">127</span>.0.0.1 localHostPort 
+</code></pre></div>
+
+
+<h5>远程转发</h5>
+<div class="highlight"><pre><span></span><code><span class="o">*</span> <span class="err">中转主机执行：</span>
+<span class="n">ssh</span> <span class="o">-</span><span class="n">R</span> <span class="n">sshServerPort</span><span class="p">:</span><span class="n">RemoteHost</span><span class="p">:</span><span class="n">RemoteHostPort</span> <span class="o">-</span><span class="n">fN</span> <span class="n">sshServer</span>
+
+<span class="o">*</span> <span class="err">上一条命令中的</span><span class="n">sshServer主机执行</span><span class="p">:</span>
+<span class="n">telnet</span> <span class="mi">127</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span> <span class="n">sshServerPort</span>
+</code></pre></div>
+
+
+<h5>动态转发</h5>
+<div class="highlight"><pre><span></span><code><span class="n">ssh</span> <span class="o">-</span><span class="n">D</span> <span class="n">localPort</span> <span class="o">-</span><span class="n">fN</span> <span class="n">sshServer</span>
+
+<span class="o">#</span> <span class="err">使用代理</span>
+<span class="n">curl</span> <span class="c1">--socks5 http://remotehost</span>
+</code></pre></div>
+
+
+<h2>ss 命令</h2>
+<h6>是socket statistics 的缩写，可以获取socket统计信息，显示内容和netstat相似</h6>
+<ul>
+<li>-t, -tcp</li>
+<li>-u, -udp</li>
+<li>-x, -unix 显示unix domain sockets, 与 -f 选项相同</li>
+<li>-n, -numeric 不解析服务的名称， 如“22”端口不会显示成“ssh”</li>
+<li>-l, -listening 只显示处于监听状态的端口</li>
+<li>-p, -processes 显示监听端口的进程</li>
+<li>-a, -all</li>
+<li>-r, -resolve 把IP解释为域名， 把端口解释成协议名称</li>
+</ul></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        leelongcrazy
+    </span>
+  </span>
+<time datetime="2022-01-28T17:00:00+08:00" pubdate>Fri 28 January 2022</time>  <span class="categories">
+    <a class='category' href='/category/software.html'>Software</a>
+  </span>
+  <span class="categories">
+    <a class="category" href="/tag/linux.html">linux</a>  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/linux-just-for-fun.html">Linux Just For Fun</a>
+      </li>
+      <li class="post">
+          <a href="/use-gdb-debug.html">use gdb debug</a>
+      </li>
+      <li class="post">
+          <a href="/mac-osgua-yong-de-kuai-jie-gong-neng.html">Mac OS适用的快捷功能</a>
+      </li>
+      <li class="post">
+          <a href="/cjin-jie-ji-lu.html">C++进阶记录</a>
+      </li>
+      <li class="post">
+          <a href="/dai-ma-zhi-liang.html">代码质量</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/article.html">Article</a></li>
+        <li><a href="/category/books.html">Books</a></li>
+        <li><a href="/category/cpp.html">CPP</a></li>
+        <li><a href="/category/import.html">Import</a></li>
+        <li><a href="/category/it.html">IT</a></li>
+        <li><a href="/category/movie.html">Movie</a></li>
+        <li><a href="/category/software.html">Software</a></li>
+        <li><a href="/category/tech.html">Tech</a></li>
+        <li><a href="/category/web.html">Web</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/tag/linux.html">linux</a>,    <a href="/tag/debug.html">Debug</a>,    <a href="/tag/mac.html">mac</a>,    <a href="/tag/tech.html">Tech</a>,    <a href="/tag/programe.html">Programe</a>,    <a href="/tag/nginx.html">nginx</a>,    <a href="/tag/vim.html">Vim</a>,    <a href="/tag/git.html">Git</a>,    <a href="/tag/qt.html">Qt</a>,    <a href="/tag/c.html">C++</a>,    <a href="/tag/edu.html">Edu</a>,    <a href="/tag/websec.html">WebSec</a>,    <a href="/tag/pwn.html">PWN</a>,    <a href="/tag/mfc.html">MFC</a>,    <a href="/tag/vue.html">VUE</a>,    <a href="/tag/bash.html">Bash</a>,    <a href="/tag/zsh.html">zsh</a>,    <a href="/tag/github.html">Github</a>,    <a href="/tag/os.html">os</a>,    <a href="/tag/python.html">Python</a>,    <a href="/tag/code.html">Code</a>,    <a href="/tag/iot.html">Iot</a>,    <a href="/tag/ai.html">AI</a>,    <a href="/tag/movie.html">Movie</a>,    <a href="/tag/article.html">Article</a>,    <a href="/tag/it.html">it</a>  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="https://github.com/leelongcrazy" target="_blank">Github</a></li>
+            <li><a href="https://twitter.com/leelongcrazy" target="_blank">Twitter</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="http://leelongcrazy.com" target="_blank">LeeLongCrazy</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2017&ndash;2022  leelongcrazy &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>VIM高阶使用技巧 &mdash; leelongcrazy's blog</title>
+  <meta name="author" content="leelongcrazy">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="/favicon.png" rel="icon">
+
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">leelongcrazy's blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li >
+        <a href="/category/article.html">Article</a>
+      </li>
+      <li >
+        <a href="/category/books.html">Books</a>
+      </li>
+      <li >
+        <a href="/category/cpp.html">Cpp</a>
+      </li>
+      <li >
+        <a href="/category/import.html">Import</a>
+      </li>
+      <li class="active">
+        <a href="/category/it.html">It</a>
+      </li>
+      <li >
+        <a href="/category/movie.html">Movie</a>
+      </li>
+      <li >
+        <a href="/category/software.html">Software</a>
+      </li>
+      <li >
+        <a href="/category/tech.html">Tech</a>
+      </li>
+      <li >
+        <a href="/category/web.html">Web</a>
+      </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">VIM高阶使用技巧</h1>
+    <p class="meta">
+<time datetime="2021-07-16T17:00:00+08:00" pubdate>Fri 16 July 2021</time>    </p>
+</header>
+
+  <div class="entry-content"><h2>vim 高阶使用技巧</h2>
+<h4>文件保存</h4>
+<h5>另存为，若文件已存在则会覆盖</h5>
+<p>:w  yourSavePath</p>
+<p>多窗口保存和退出</p>
+<p>:qall  退出全部，如果有窗口没有存盘，都不会退出</p>
+<p>:wall</p>
+<p>:wqall</p>
+<p>:qall!</p>
+<h4>ESC 可以用 ctrl + 【 代替</h4>
+<h3>编辑</h3>
+<p>c, 代表change</p>
+<p>cc 删除本行，并进入编辑模式</p>
+<p>cw 删除单词，原地编辑</p>
+<h3>拷贝</h3>
+<p>yw 拷贝一个单词</p>
+<p>yy  拷贝一行</p>
+<p>dw 删除一个单词</p>
+<h3>折叠代码</h3>
+<p>zf  进行折叠</p>
+<p>zo 打开折叠，方向键 向右 也可以打开折叠</p>
+<p>zc 关闭折叠（只要在被折叠的块中的任意一个语句都可以）</p>
+<h3>缩进代码</h3>
+<p>&lt;&lt; 左缩紧  &gt;&gt; 右缩紧 行左移，行右移</p>
+<p>V选定后，= 可完成自动格式化代码</p>
+<p>查找</p>
+<p>/ 代表向下查找</p>
+<p>？代表向上查找</p>
+<p><strong>*(#) 当光标停留在某个单词上时，输入这条命令可以向下（向上）匹配相同的单词。配合n (N)使用</strong></p>
+<p>g*(g#) 和上面的命令相似，匹配包含有此处单词的所有字符串。</p>
+<h3>替换</h3>
+<p>单个字符替换用r，覆盖多个字符用R，用多个字符替换一个字符用s，整行替换用S.</p>
+<p>:s/vivian/sky/ 替换当前行第一个 vivian 为 sky</p>
+<p>:s/vivian/sky/g 替换当前行所有 vivian 为 sky</p>
+<p>:n,$s/blue/green/  替换从第n行开始到最后一行中每行的第一个blue为green</p>
+<p>n为数字，表示第几行，若n为 . 点时，表示从当前行开始到最后一行</p>
+<p>%表示文件中的每一行</p>
+<p>当替换字符中出现/时，可以使用#作为分隔符</p>
+<p>:s #blue/#green/#</p>
+<h3>光标移动</h3>
+<p>w  按单词移动</p>
+<p>e 按单词移动，单词末尾，代表end</p>
+<p>b 移动到上一个单词, 代表begin</p>
+<p>0 本行开头, 代表第0列</p>
+<p>^ 本行开头的字符处</p>
+<p>$ 本行结尾</p>
+<p>H 屏幕的首行</p>
+<p>M 屏幕的中间行</p>
+<p>L 屏幕的结尾一行</p>
+<p>ctrl + f  向下翻页，page down</p>
+<p>ctrl + b 向上翻页，page up</p>
+<p>ctrl + d  向下翻半屏</p>
+<p>ctrl + u  向上翻半屏</p>
+<p>'.  移动光标到上次修改行</p>
+<p>字符（h、l）→ 单词 (w、W、b、B、e) → 行 (j、k、0、^、$、:n) → 句子（(、)）→ 段落（{、}）→ 屏 (H、M、L) → 页（Ctrl-f、Ctrl-b、Ctrl-u、Ctrl-d) → 文件（G、gg、:0、:$）</p>
+<h3>定义标记</h3>
+<p>m+ 字符  可以将此位置标记下来，通过 `+字符快速访问这个位置。</p>
+<p>:marks  可以看到所有的标记</p>
+<p>`` 或者 '' 双反引号或者双单引号，可以在临近的两个标记之间切换</p>
+<p>:delmarks 字符  删除mark标记点</p>
+<h4>取得外部输入</h4>
+<p>:r! <cmd> 将命令cmd输出的结果插入到光标所在位置</p>
+<p>:r <file> 将文件<file>读入到光标所在的位置</p>
+<h4>执行shell命令</h4>
+<p>:!<cmd> , 在需要编译文件或执行测试脚本的时候好使</p>
+<p>:!pwd</p>
+<p>:!!   重复前面的命令</p>
+<h4>命令记录与重放</h4>
+<ol>
+<li>按下q+(a...z)寄存器名；</li>
+<li>执行你要完成的操作</li>
+<li>按 q 结束录制</li>
+<li>调用：@+寄存器名（a-z)</li>
+</ol>
+<p>@@ 为重复上一次调用</p>
+<h4>显示当前编辑文件名及行数</h4>
+<p>ctrl + g  等价于命令<code>:f</code></p>
+<h4>两行合并为一行</h4>
+<p>在需要合并两行的第一行，按 J 即可</p>
+<h4>同时删除多行</h4>
+<dl>
+<dd>start, end d</dd>
+</dl>
+<h4>vim中diff文件</h4>
+<p>如果已经打开了一个文件，则：</p>
+<p>:vert diffsplit compare_file</p>
+<p>如果都还没有打开，则：</p>
+<p>vi -O file1 file2 # 文件左右并排</p>
+<p>vi -o file1 file2 # 文件上下并排</p>
+<h4>清空编辑文件内容</h4>
+<p>ggdG</p>
+<h4>将已保存文件的tab替换成4个空格</h4>
+<div class="highlight"><pre><span></span><code>:set <span class="nv">ts</span><span class="o">=</span><span class="m">4</span>
+:set expandtab
+:%retab!
+</code></pre></div>
+
+
+<h4>匹配空白行</h4>
+<div class="highlight"><pre><span></span><code><span class="err">/^s*$       # 匹配空白行</span>
+<span class="err">g/^s*$/d    # 删除文档中的所有空白行</span>
+</code></pre></div>
+
+
+<h2>参考资料</h2>
+<p><a href="http://blog.chinaunix.net/uid-68315-id-83209.html">VIM高级使用指南</a></p>
+<h3>Vim 开发环境配置</h3>
+<p>大佬share的vim配置 https://github.com/andyshrk/dotvim</p>
+<h4>插件管理：</h4>
+<p>https://github.com/junegunn/vim-plug</p>
+<h4>插件：</h4>
+<p>模糊匹配：https://github.com/junegunn/fzf</p>
+<p>匹配工具：https://github.com/Yggdroot/LeaderF</p>
+<p>https://github.com/ludovicchabant/vim-gutentags</p>
+<h3>vim 分屏显示</h3>
+<p>https://blog.csdn.net/lovelirui/article/details/6282978</p>
+<h3>vim 使用</h3>
+<h4>定义/调用跳转</h4>
+<p>ctrl + ] : 跳转到定义位置</p>
+<p>ctrl + o : 跳转到调用位置  或者 ctrl + t</p>
+<h4>为不同的文件设置不同的缩进tab宽度</h4>
+<div class="highlight"><pre><span></span><code>autocmd FileType python <span class="nb">set</span> ai
+autocmd FileType python <span class="nb">set</span> <span class="nv">sw</span><span class="o">=</span><span class="m">4</span>
+autocmd FileType python <span class="nb">set</span> <span class="nv">ts</span><span class="o">=</span><span class="m">4</span>
+autocmd FileType python <span class="nb">set</span> <span class="nv">sts</span><span class="o">=</span><span class="m">4</span>
+autocmd FileType c,cpp <span class="nb">set</span> ai
+autocmd FileType c,cpp <span class="nb">set</span> <span class="nv">sw</span><span class="o">=</span><span class="m">8</span>
+autocmd FileType c,cpp <span class="nb">set</span> <span class="nv">ts</span><span class="o">=</span><span class="m">8</span>
+autocmd FileType c,cpp <span class="nb">set</span> <span class="nv">sts</span><span class="o">=</span><span class="m">8</span>
+autocmd FileType sh,bash,shell,html,javascript <span class="nb">set</span> ai
+autocmd FileType sh,bash,shell,html,javascript <span class="nb">set</span> <span class="nv">sw</span><span class="o">=</span><span class="m">2</span>
+autocmd FileType sh,bash,shell,html,javascript <span class="nb">set</span> <span class="nv">ts</span><span class="o">=</span><span class="m">2</span>
+autocmd FileType sh,bash,shell,html,javascript <span class="nb">set</span> <span class="nv">sts</span><span class="o">=</span><span class="m">2</span>
+</code></pre></div>
+
+
+<h4>给代码自动添加注释</h4>
+<div class="highlight"><pre><span></span><code>autocmd BufNewFile *.py exec<span class="s2">&quot;:call Python()&quot;</span>
+func Python<span class="o">()</span>
+  call append<span class="o">(</span><span class="m">0</span>,<span class="s2">&quot;#!/usr/bin/env python&quot;</span><span class="o">)</span>
+  call append<span class="o">(</span><span class="m">1</span>,<span class="s2">&quot;# coding=utf-8&quot;</span><span class="o">)</span>
+  call append<span class="o">(</span><span class="m">2</span>,<span class="s2">&quot;# Author: leelongcrazy &quot;</span><span class="o">)</span>
+  call append<span class="o">(</span><span class="m">3</span>,<span class="s2">&quot;# Date: &quot;</span> .strftime<span class="o">(</span><span class="s2">&quot;%Y-%m-%d %H:%M&quot;</span><span class="o">))</span>
+  call append<span class="o">(</span><span class="m">4</span>,<span class="s2">&quot;# Filename: &quot;</span> .expand<span class="o">(</span><span class="s2">&quot;%:t&quot;</span><span class="o">))</span>
+  call append<span class="o">(</span><span class="m">5</span>,<span class="s2">&quot;# Describe: &quot;</span><span class="o">)</span>
+endfunc
+
+autocmd BufNewFile *.sh exec<span class="s2">&quot;:call Shell()&quot;</span>
+func Shell<span class="o">()</span>
+        call append<span class="o">(</span><span class="m">0</span>, <span class="s2">&quot;#!/bin/bash&quot;</span><span class="o">)</span>
+        call append<span class="o">(</span><span class="m">1</span>, <span class="s2">&quot;# Author: leelongcrazy&quot;</span><span class="o">)</span>
+        call append<span class="o">(</span><span class="m">3</span>,<span class="s2">&quot;# Date: &quot;</span> .strftime<span class="o">(</span><span class="s2">&quot;%Y-%m-%d %H:%M&quot;</span><span class="o">))</span>
+        call append<span class="o">(</span><span class="m">2</span>, <span class="s2">&quot;# Filename: &quot;</span> .expand<span class="o">(</span><span class="s2">&quot;%:t&quot;</span><span class="o">))</span>
+        call append<span class="o">(</span><span class="m">3</span>, <span class="s2">&quot;# Describe: &quot;</span><span class="o">)</span>
+endfunc
+</code></pre></div>
+
+
+<h4>设置光标样式</h4>
+<div class="highlight"><pre><span></span><code><span class="s2">&quot; 光标样式设置</span>
+<span class="s2">let &amp;t_SI=&quot;</span><span class="se">\&lt;</span>Esc&gt;<span class="o">[</span><span class="m">6</span> q<span class="s2">&quot; . &quot;</span><span class="se">\&lt;</span>Esc&gt;<span class="o">]</span><span class="m">12</span><span class="p">;</span>white<span class="se">\x</span><span class="m">7</span><span class="s2">&quot;   &quot;</span> 插入模式
+<span class="nb">let</span> <span class="p">&amp;</span><span class="nv">t_SR</span><span class="o">=</span><span class="s2">&quot;\&lt;Esc&gt;[3 q&quot;</span> . <span class="s2">&quot;\&lt;Esc&gt;]12;blue\x7&quot;</span>    <span class="s2">&quot; 替换模式</span>
+<span class="s2">let &amp;t_EI=&quot;</span><span class="se">\&lt;</span>Esc&gt;<span class="o">[</span><span class="m">2</span> q<span class="s2">&quot; . &quot;</span><span class="se">\&lt;</span>Esc&gt;<span class="o">]</span><span class="m">12</span><span class="p">;</span>green<span class="se">\x</span><span class="m">7</span><span class="s2">&quot;   &quot;</span> 普通模式
+
+<span class="s2">&quot; 1 -&gt; blinking block  闪烁的方块</span>
+<span class="s2">&quot;</span> <span class="m">2</span> -&gt; solid block  不闪烁的方块
+<span class="s2">&quot; 3 -&gt; blinking underscore  闪烁的下划线</span>
+<span class="s2">&quot;</span> <span class="m">4</span> -&gt; solid underscore  不闪烁的下划线
+<span class="s2">&quot; 5 -&gt; blinking vertical bar  闪烁的竖线</span>
+<span class="s2">&quot;</span> <span class="m">6</span> -&gt; solid vertical bar  不闪烁的竖线
+</code></pre></div></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        leelongcrazy
+    </span>
+  </span>
+<time datetime="2021-07-16T17:00:00+08:00" pubdate>Fri 16 July 2021</time>  <span class="categories">
+    <a class='category' href='/category/it.html'>IT</a>
+  </span>
+  <span class="categories">
+    <a class="category" href="/tag/vim.html">Vim</a>  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/linux-just-for-fun.html">Linux Just For Fun</a>
+      </li>
+      <li class="post">
+          <a href="/use-gdb-debug.html">use gdb debug</a>
+      </li>
+      <li class="post">
+          <a href="/mac-osgua-yong-de-kuai-jie-gong-neng.html">Mac OS适用的快捷功能</a>
+      </li>
+      <li class="post">
+          <a href="/cjin-jie-ji-lu.html">C++进阶记录</a>
+      </li>
+      <li class="post">
+          <a href="/dai-ma-zhi-liang.html">代码质量</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/article.html">Article</a></li>
+        <li><a href="/category/books.html">Books</a></li>
+        <li><a href="/category/cpp.html">CPP</a></li>
+        <li><a href="/category/import.html">Import</a></li>
+        <li><a href="/category/it.html">IT</a></li>
+        <li><a href="/category/movie.html">Movie</a></li>
+        <li><a href="/category/software.html">Software</a></li>
+        <li><a href="/category/tech.html">Tech</a></li>
+        <li><a href="/category/web.html">Web</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/tag/linux.html">linux</a>,    <a href="/tag/debug.html">Debug</a>,    <a href="/tag/mac.html">mac</a>,    <a href="/tag/tech.html">Tech</a>,    <a href="/tag/programe.html">Programe</a>,    <a href="/tag/nginx.html">nginx</a>,    <a href="/tag/vim.html">Vim</a>,    <a href="/tag/git.html">Git</a>,    <a href="/tag/qt.html">Qt</a>,    <a href="/tag/c.html">C++</a>,    <a href="/tag/edu.html">Edu</a>,    <a href="/tag/websec.html">WebSec</a>,    <a href="/tag/pwn.html">PWN</a>,    <a href="/tag/mfc.html">MFC</a>,    <a href="/tag/vue.html">VUE</a>,    <a href="/tag/bash.html">Bash</a>,    <a href="/tag/zsh.html">zsh</a>,    <a href="/tag/github.html">Github</a>,    <a href="/tag/os.html">os</a>,    <a href="/tag/python.html">Python</a>,    <a href="/tag/code.html">Code</a>,    <a href="/tag/iot.html">Iot</a>,    <a href="/tag/ai.html">AI</a>,    <a href="/tag/movie.html">Movie</a>,    <a href="/tag/article.html">Article</a>,    <a href="/tag/it.html">it</a>  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="https://github.com/leelongcrazy" target="_blank">Github</a></li>
+            <li><a href="https://twitter.com/leelongcrazy" target="_blank">Twitter</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="http://leelongcrazy.com" target="_blank">LeeLongCrazy</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2017&ndash;2022  leelongcrazy &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+</body>
+</html>

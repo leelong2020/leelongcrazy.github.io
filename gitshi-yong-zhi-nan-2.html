@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Git使用指南2 &mdash; leelongcrazy's blog</title>
+  <meta name="author" content="leelongcrazy">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="/favicon.png" rel="icon">
+
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">leelongcrazy's blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li >
+        <a href="/category/article.html">Article</a>
+      </li>
+      <li >
+        <a href="/category/books.html">Books</a>
+      </li>
+      <li >
+        <a href="/category/cpp.html">Cpp</a>
+      </li>
+      <li >
+        <a href="/category/import.html">Import</a>
+      </li>
+      <li class="active">
+        <a href="/category/it.html">It</a>
+      </li>
+      <li >
+        <a href="/category/movie.html">Movie</a>
+      </li>
+      <li >
+        <a href="/category/software.html">Software</a>
+      </li>
+      <li >
+        <a href="/category/tech.html">Tech</a>
+      </li>
+      <li >
+        <a href="/category/web.html">Web</a>
+      </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">Git使用指南2</h1>
+    <p class="meta">
+<time datetime="2021-05-28T18:00:00+08:00" pubdate>Fri 28 May 2021</time>    </p>
+</header>
+
+  <div class="entry-content"><h1>Git使用指南</h1>
+<h3>git代码分支操作</h3>
+<h5>git push origin --delete refs/heads/localDev   # 删除远程分支</h5>
+<h5>git push --set-upstream origin remotes/origin/localDev  # 设置本地关联远程分支</h5>
+<blockquote>
+<p>git branch --set-upstream-to=origin/remote_branch local_branch</p>
+</blockquote>
+<h5>git branch -m remotes/origin/localDev localDev   # 对本地分支进行重命名</h5>
+<h5>git branch -a   # 列出所有分支</h5>
+<h5>git push origin :remotes/origin/localDev   # 删除远程分支，如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支</h5>
+<p>remote: Powered by xxx.com [GNK-5.0]
+To xxx.com:username/program.git</p>
+<p>[deleted]         remotes/origin/localDev
+xxx@DESKTOP-EOLISFD /mnt/tmp/program</p>
+<h5>git push origin localDev:Dev    # 将本地分支名推送到指定远程分支名</h5>
+<p>Counting objects: 967, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (687/687), done.
+Writing objects: 100% (967/967), 4.84 MiB | 8.31 MiB/s, done.
+Total 967 (delta 360), reused 710 (delta 263)
+remote: Resolving deltas: 100% (360/360), completed with 11 local objects.
+remote: Powered by xxx.com [GNK-5.0]
+remote: Create a pull request for 'Dev' on Git by visiting:
+remote:     https://xxx.com/username/program/pull/new/username:Dev...username:master
+To xxx.com:username/program.git</p>
+<p>[new branch]      localDev -&gt; Dev</p>
+<h2>git config</h2>
+<p>给本地分支添加描述信息：</p>
+<div class="highlight"><pre><span></span><code>git config branch.<span class="o">{</span>branch_name<span class="o">}</span>.description  <span class="s2">&quot;描述信息&quot;</span>
+</code></pre></div>
+
+
+<p>描述信息便捷查询工具：git-br</p>
+<p>依赖node，npm，安装方式：<code>npm i -g git-br</code></p>
+<h2>Git拉取远程分支的代码到本地</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 从远程分支下载对象和引用</span>
+git fetch origin remote_branch_name
+<span class="c1"># 2. 从远程分支获取对象并合并</span>
+git pull origin remote_brach_name
+</code></pre></div>
+
+
+<h2>git tag 操作</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 远程tag分支</span>
+git ls-remote --tags origin
+
+<span class="c1"># 列出本地tag</span>
+git tags
+
+<span class="c1"># 创建</span>
+git tag <span class="o">[</span>tag Name<span class="o">]</span>
+git tag -a <span class="o">[</span>tag Name<span class="o">]</span> -m desc
+
+<span class="c1"># 推送tag到远程仓库</span>
+git push origin --tags
+<span class="c1"># 推送指定本地tag到远程</span>
+git push origin <span class="o">[</span><span class="nb">local</span> tag name<span class="o">]</span>
+
+<span class="c1"># 删除本地tag</span>
+git tag -d <span class="o">[</span>tag name<span class="o">]</span>
+<span class="c1"># 删除远程tag</span>
+git push origin :refs/tags/<span class="o">[</span>remote tag name<span class="o">]</span>
+
+<span class="c1"># 拉取远程指定tag</span>
+git fetch origin <span class="o">[</span>remote tag name<span class="o">]</span>
+
+<span class="c1"># 显示指定tag详细信息</span>
+git show <span class="o">[</span>tag name<span class="o">]</span>
+</code></pre></div>
+
+
+<h2>Git log</h2>
+<ul>
+<li>git reflog:  显示所有关于HEAD的历史</li>
+</ul>
+<h5>删除reflog条目</h5>
+<div class="highlight"><pre><span></span><code>git reflog expire --expire<span class="o">=</span>now --all  <span class="c1"># 不会删除git log记录</span>
+</code></pre></div>
+
+
+<h2>git gc</h2>
+<p>gc: garbage collect  垃圾回收功能</p>
+<p>运行 git gc 命令时，git会收集所有松散对象并将它们存入packfile，合并这些packfile进一个大的packfile，然后将不被任何commit引用并且已存在一段时间（数月）的对象删除。还会将所有引用（references）并入一个单独文件。</p>
+<h2>Git .gitignore</h2>
+<p>各类编程语言gitignore文件模板：<a href="https://github.com/github/gitignore">https://github.com/github/gitignore</a></p>
+<h5>生效gitignore</h5>
+<p>gitignore 放置位置在项目的根目录下，而非<code>.git</code>目录下面，否则不会生效</p>
+<div class="highlight"><pre><span></span><code><span class="err">git rm -r --cached . # 清除缓存</span>
+<span class="err">git add .</span>
+<span class="err">git commit -m &quot;update .gitignore&quot;</span>
+<span class="err">git push origin master</span>
+</code></pre></div>
+
+
+<hr>
+<p>显示项目中被忽略的文件列表</p>
+<p>git status --ignored</p>
+<p>git clean -ndX</p>
+<h2>Git不熟悉的操作命令</h2>
+<p>把对某个文件的修改添加到<strong>下次提交</strong>中：</p>
+<p>git add -p <file></p>
+<h4>本地修改</h4>
+<p>提交之前已标记的变化：</p>
+<p><code>git commit</code> </p>
+<p>附加消息提交：</p>
+<p><code>git commit -m "message"</code></p>
+<p>提交，并将提交时间设置为之前的某个时间</p>
+<p><code>git commit --date="date-date='n days ago'" -am "commit message"</code></p>
+<p><strong>修改上次提交信息</strong></p>
+<p><em>请勿修改已发布的提交记录</em>，实际上可以实现修改已发布的记录修改</p>
+<p><code>git commit --amend</code></p>
+<h3>Git stash</h3>
+<p>可以将修改的内容保存到堆栈区，然后再将其恢复出来。</p>
+<p>把当前分支未提交的修改，移动到其他分支</p>
+<p><code>git stash</code></p>
+<p><code>git checkout branch2</code>    也可以创建新的分支，把未提交的修改移动到这个分支上来。</p>
+<p><code>git stash pop</code></p>
+<p><code>git stash save "save Message"</code> =&gt;效果等同于 git stash , 多添加了描述信息</p>
+<p><code>git stash list</code></p>
+<p><code>git stash show</code></p>
+<p><code>git stash show stash@{$num}</code> 显示第几个存储的改动</p>
+<p><code>git stash show -p</code></p>
+<p><code>git stash apply</code>  应用于某个存储，但不会把存储从存储列表中删除</p>
+<p><code>git stash pop</code>  恢复之前缓存的目录，对应堆栈会删除</p>
+<p><code>git stash drop stash@{$num}</code> 丢弃对应的存储</p>
+<p><code>git stash clear</code>  删除所有缓存的stash</p>
+<blockquote>
+<p>新增的文件执行 git stash 不会被存储（没有在git版本控制中的文件是不能被stash存储起来的）</p>
+</blockquote>
+<p>这一段不是特别能理解。</p>
+<p><em>常规 git stash 的一个限制是它会一下暂存所有的文件。有时，只备份某些文件更为方便，让另外一些与代码库保持一致。一个非常有用的技巧，用来备份部分文件：</em></p>
+<ol>
+<li><em>add 那些你不想备份的文件（例如： git add file1.js, file2.js）</em></li>
+<li><em>调用 git stash –keep-index。只会备份那些没有被add的文件。</em></li>
+<li><em>调用 git reset 取消已经add的文件的备份，继续自己的工作。</em></li>
+</ol>
+<p><a href="https://www.cnblogs.com/zndxall/archive/2018/09/04/9586088.html">https://www.cnblogs.com/zndxall/archive/2018/09/04/9586088.html</a></p>
+<blockquote>
+<p>-k|--keep-index 表示 stash之后，所有对暂存区的改变会维持不变（比如你之前add 了一个file，提交之后，git status还是能够在暂存区看到你的 add）,如果是—no-keep-index的话，stash之后的状态就是git reset —hard HEAD。</p>
+<p>作者：xingou
+链接：https://www.jianshu.com/p/ea86475cf922
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</blockquote>
+<h4>搜索</h4>
+<p>从当前目录的所有文件中查找文本内容</p>
+<p><code>git grep "Hello"</code></p>
+<p>在某一版本中搜索文本</p>
+<p><code>git grep "hello" v2.4</code></p>
+<h4>提交历史</h4>
+<p>显示所有提交信息：(显示hash和message)</p>
+<p><code>git log --oneline</code></p>
+<p>显示某一个用户的所有提交</p>
+<p><code>git log --author="username"</code></p>
+<p>显示某一个文件的所有修改</p>
+<p><code>git log -p &lt;file&gt;</code></p>
+<p>谁，在什么时间，修改了文件的什么内容：</p>
+<p><code>git blame &lt;file&gt;</code></p>
+<p>基于当前分支创建新的分支（不切换到新的分支）</p>
+<p><code>git branch &lt;new-branch-name&gt;</code></p>
+<p>基于远程分支创建新的可追溯的分支：</p>
+<p><code>git branch --track &lt;new_branch&gt; &lt;remote_branch&gt;</code></p>
+<h4>分支更新</h4>
+<p>列出当前配置的远程分支</p>
+<p><code>git remote -v</code></p>
+<p>显示远程分支的信息</p>
+<p><code>git remote show &lt;remote_branch_name&gt;</code></p>
+<p>下载远程端版本，但不合并到HEAD中</p>
+<p><code>git fetch &lt;remote&gt;</code></p>
+<p>下载远程端版本，并自动与HEAD版本合并</p>
+<p><code>git remote pull &lt;remote&gt; &lt;url&gt;</code></p>
+<p>将远程端版本合并到本地版本中</p>
+<p><code>git pull origin master</code></p>
+<p>删除远程端分支</p>
+<p><code>git push &lt;remote&gt; --delete &lt;branch&gt;</code></p>
+<h4>合并与重置</h4>
+<p>将当前HEAD版本重置到分支中</p>
+<p><code>git rebase &lt;branch&gt;</code></p>
+<p>退出重置，回到rebase操作之前的状态，之前的提交不会丢失</p>
+<p><code>git rebase --abort</code></p>
+<p>解决冲突后继续重置</p>
+<p><code>git rebase--continue</code></p>
+<blockquote>
+<p><em>git rebase --skip  会将引起冲突的commits丢弃掉，谨慎使用</em></p>
+</blockquote>
+<p>使用配置好的merge tool解决冲突</p>
+<p><code>git mergetool</code></p>
+<p>在编程器中手动解决冲突后，标记文件为<code>已解决冲突</code></p>
+<p><code>git add &lt;resolved-file&gt;</code></p>
+<p><code>git rm  &lt;resolved-file&gt;</code></p>
+<h3>commit 合并</h3>
+<p>将多个commit 合并为一个</p>
+<ol>
+<li><code>git rebase -i [StartCommitID] [EndCommitID]</code></li>
+<li><code>git rebase -i HEAD~n</code>将最近的n次commit提交合并</li>
+</ol>
+<p>然后对每个commit 进行处理：可以除第一个提交保留不变外，其他用fixup或squash进行标记，提交信息是pick标记的信息</p>
+<ul>
+<li><code>pick</code>: 不做调整，保留提交信息</li>
+<li><code>squash</code>: 合并到上面的 pick中，保留提交信息</li>
+<li><code>fixup</code>:与squash类似，但不保留提交信息</li>
+</ul>
+<h4>撤销</h4>
+<p>git status 显示的三种文件状态：</p>
+<ul>
+<li>修改: modified</li>
+<li>删除: deleted</li>
+<li>添加:  untracked</li>
+</ul>
+<p>取消所有修改，删除</p>
+<p><code>git checkout -f</code></p>
+<p>放弃指定的文件/文件夹的修改，删除</p>
+<p><code>git chekout fileName/Directory</code></p>
+<p>放弃仓库所有添加：</p>
+<p><code>git clean -df</code></p>
+<p>放弃指定文件/文件夹的添加</p>
+<p><code>git clean fileName/Direcory -df</code></p>
+<p>放弃工作目录下的所有修改</p>
+<p><code>git reset --hard HEAD</code></p>
+<p>移除缓存区的所有文件（撤销上次的git add）// 取消暂存区的提交</p>
+<p><code>git reset HEAD</code></p>
+<p>放弃某个文件的所有本地修改</p>
+<p><code>git checkout HEAD &lt;file&gt;</code></p>
+<p>重置一个提交（通过创建一个车截然不同的新提交）</p>
+<p><code>git revert &lt;commit&gt;</code></p>
+<p>将HEAD重置到指定的版本，并抛弃该版本之后的所有修改</p>
+<p><code>git reset --hard &lt;commit-id&gt;</code></p>
+<p>将HEAD重置到上一次提交的版本，并将只会在修改标记为未添加到缓存区的修改：</p>
+<p><code>git reset &lt;commit-id&gt;</code></p>
+<p>将HEAD重置到上一次提交的版本，并保留未提交的本地修改</p>
+<p><code>git reset --keep &lt;commit-id&gt;</code></p>
+<h3>git大文件处理</h3>
+<h4>方法一 ：git lfs</h4>
+<p>工具地址：https://git-lfs.github.com/</p>
+<ol>
+<li>在仓库中执行<code>git lfs install</code></li>
+<li>追踪记录大文件 <code>git lsf track "bigFileName"</code></li>
+<li>git add &amp;&amp; git push</li>
+</ol>
+<h4>方法二：处理大文件最棘手的问题在于将大文件从commit历史记录中删除。</h4>
+<p>列出仓库中大文件top10</p>
+<div class="highlight"><pre><span></span><code>git rev-list --all <span class="p">|</span> xargs -rL1 git ls-tree -r --long <span class="p">|</span> sort -uk3 <span class="p">|</span> sort -rnk4 <span class="p">|</span> head -10
+</code></pre></div>
+
+
+<p>根据大文件的路径，修改文件的commit历史</p>
+<div class="highlight"><pre><span></span><code>git filter-branch --tree-filter <span class="s2">&quot;rm -f {filepath}&quot;</span> -- --all
+</code></pre></div>
+
+
+<p>强制提交到远程仓库</p>
+<div class="highlight"><pre><span></span><code>git push -f --all
+</code></pre></div>
+
+
+<h4>方法三：git-filter-branch的替代品</h4>
+<h6><a href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a></h6>
+<p>使用步骤：</p>
+<ol>
+<li>安装Java运行环境</li>
+</ol>
+<p><code>bash
+   sudo apt  update
+   sudo apt install openjdk-11-jdk
+   # 查看安装结果
+   java --version
+   # 回显
+   openjdk 11.0.11 2021-04-20
+   OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.18.04)
+   OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.18.04, mixed mode, sharing)</code></p>
+<ol>
+<li>
+<p>下载bgf-cleaner</p>
+</li>
+<li>
+<p>进入到项目仓库目录下，运行</p>
+</li>
+</ol>
+<p><code>bash
+   java -jar bfg.jar -b 100M</code></p>
+<blockquote>
+<p>如果运行此命令出错：
+<em>Warning : no large blobs matching criteria found in packfiles - does the repo need to be packed?</em>
+则可运行 <code>git gc</code>后在重复上面的命令
+4.   上面命令运行结束以后按照提示运行：
+    <code>bash
+    git reflog expire --expire=now --all &amp;&amp; git gc --prune=now --aggressive</code></p>
+</blockquote>
+<ol>
+<li>git push</li>
+</ol>
+<blockquote>
+<p>经测试使用，第二种处理大文件的方法比较稳妥。</p>
+</blockquote></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        leelongcrazy
+    </span>
+  </span>
+<time datetime="2021-05-28T18:00:00+08:00" pubdate>Fri 28 May 2021</time>  <span class="categories">
+    <a class='category' href='/category/it.html'>IT</a>
+  </span>
+  <span class="categories">
+    <a class="category" href="/tag/tech.html">Tech</a>,    <a class="category" href="/tag/git.html">Git</a>  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/linux-just-for-fun.html">Linux Just For Fun</a>
+      </li>
+      <li class="post">
+          <a href="/use-gdb-debug.html">use gdb debug</a>
+      </li>
+      <li class="post">
+          <a href="/mac-osgua-yong-de-kuai-jie-gong-neng.html">Mac OS适用的快捷功能</a>
+      </li>
+      <li class="post">
+          <a href="/cjin-jie-ji-lu.html">C++进阶记录</a>
+      </li>
+      <li class="post">
+          <a href="/dai-ma-zhi-liang.html">代码质量</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/article.html">Article</a></li>
+        <li><a href="/category/books.html">Books</a></li>
+        <li><a href="/category/cpp.html">CPP</a></li>
+        <li><a href="/category/import.html">Import</a></li>
+        <li><a href="/category/it.html">IT</a></li>
+        <li><a href="/category/movie.html">Movie</a></li>
+        <li><a href="/category/software.html">Software</a></li>
+        <li><a href="/category/tech.html">Tech</a></li>
+        <li><a href="/category/web.html">Web</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/tag/linux.html">linux</a>,    <a href="/tag/debug.html">Debug</a>,    <a href="/tag/mac.html">mac</a>,    <a href="/tag/tech.html">Tech</a>,    <a href="/tag/programe.html">Programe</a>,    <a href="/tag/nginx.html">nginx</a>,    <a href="/tag/vim.html">Vim</a>,    <a href="/tag/git.html">Git</a>,    <a href="/tag/qt.html">Qt</a>,    <a href="/tag/c.html">C++</a>,    <a href="/tag/edu.html">Edu</a>,    <a href="/tag/websec.html">WebSec</a>,    <a href="/tag/pwn.html">PWN</a>,    <a href="/tag/mfc.html">MFC</a>,    <a href="/tag/vue.html">VUE</a>,    <a href="/tag/bash.html">Bash</a>,    <a href="/tag/zsh.html">zsh</a>,    <a href="/tag/github.html">Github</a>,    <a href="/tag/os.html">os</a>,    <a href="/tag/python.html">Python</a>,    <a href="/tag/code.html">Code</a>,    <a href="/tag/iot.html">Iot</a>,    <a href="/tag/ai.html">AI</a>,    <a href="/tag/movie.html">Movie</a>,    <a href="/tag/article.html">Article</a>,    <a href="/tag/it.html">it</a>  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="https://github.com/leelongcrazy" target="_blank">Github</a></li>
+            <li><a href="https://twitter.com/leelongcrazy" target="_blank">Twitter</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="http://leelongcrazy.com" target="_blank">LeeLongCrazy</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2017&ndash;2022  leelongcrazy &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+</body>
+</html>
