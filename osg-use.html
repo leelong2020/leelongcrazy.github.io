@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>osg use &mdash; leelongcrazy's blog</title>
+  <meta name="author" content="leelongcrazy">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="/favicon.png" rel="icon">
+
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">leelongcrazy's blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li >
+        <a href="/category/article.html">Article</a>
+      </li>
+      <li >
+        <a href="/category/books.html">Books</a>
+      </li>
+      <li >
+        <a href="/category/cpp.html">Cpp</a>
+      </li>
+      <li >
+        <a href="/category/import.html">Import</a>
+      </li>
+      <li class="active">
+        <a href="/category/it.html">It</a>
+      </li>
+      <li >
+        <a href="/category/movie.html">Movie</a>
+      </li>
+      <li >
+        <a href="/category/software.html">Software</a>
+      </li>
+      <li >
+        <a href="/category/tech.html">Tech</a>
+      </li>
+      <li >
+        <a href="/category/web.html">Web</a>
+      </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">osg use</h1>
+    <p class="meta">
+<time datetime="2023-05-13T17:00:00+08:00" pubdate>Sat 13 May 2023</time>    </p>
+</header>
+
+  <div class="entry-content"><h1>Use OSG</h1>
+<h3>简介</h3>
+<p>OpenSceneGraph是一个开源的，跨平台的高性能 3D 图形工具包，它完全用标准 C++ 和 OpenGL 编写，可以用来进行三维仿真，OSG包含的多线程技术，PagedLOD技术，可以方便的处理大数据的三维模型的可视化及其调度。</p>
+<h3>一些术语：</h3>
+<p>场景图形-SceneGraph；场景子树-Subgraph；节点-Node；摄像机-Camera；渲染器-Renderer；</p>
+<p>窗口-Window；视口-Viewport；场景-Scene；视图-View；视景器-Viewer；漫游器-Manipulator；</p>
+<p>访问器-Visitor；回调-Callback；事件-Event；更新-Update；筛选-Cull；绘制-Draw。</p>
+<h2>OSG 运行框架</h2>
+<p><img alt="img" src="../../img/osg.jpg"></p>
+<h3>模型的移动，旋转，缩放</h3>
+<p>通过对矩阵操作实现，osg中有一个专门处理的类，osg::MatrixTransform类</p>
+<p>还有一个类osg::Matrixd，被当做参数传入osg::MatrixTransform，以实现模型的矩阵变换</p>
+<div class="highlight"><pre><span></span><code><span class="n">osg</span><span class="o">::</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">osg</span><span class="o">::</span><span class="n">MatrixTransform</span><span class="o">&gt;</span> <span class="n">mt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">osg</span><span class="o">::</span><span class="n">MatrixTransform</span><span class="p">;</span>
+<span class="n">osg</span><span class="o">::</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">osg</span><span class="o">::</span><span class="n">Node</span><span class="o">&gt;</span> <span class="n">cow</span> <span class="o">=</span> <span class="n">osgDB</span><span class="o">::</span><span class="n">readNodeFile</span><span class="p">(</span><span class="s">&quot;cow.osg&quot;</span><span class="p">);</span>
+<span class="n">mt</span><span class="p">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">cow</span><span class="p">);</span>
+<span class="c1">// 向X轴移动30， 绕X轴旋转90度，缩放到原来的0.2倍</span>
+<span class="n">mt</span><span class="o">-&gt;</span><span class="n">setMatrix</span><span class="p">(</span><span class="n">osg</span><span class="o">::</span><span class="n">Matrix</span><span class="o">::</span><span class="n">translate</span><span class="p">(</span><span class="n">osg</span><span class="o">::</span><span class="n">Vec3</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">*</span>  <span class="c1">// 平移矩阵</span>
+             <span class="n">osg</span><span class="o">::</span><span class="n">Matrix</span><span class="o">::</span><span class="n">rotate</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="n">osg</span><span class="o">::</span><span class="n">Vec3d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">*</span>  <span class="c1">// 旋转矩阵 </span>
+             <span class="n">osg</span><span class="o">::</span><span class="n">Matrix</span><span class="o">::</span><span class="n">scale</span><span class="p">(</span><span class="n">osg</span><span class="o">::</span><span class="n">Vec3</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span> <span class="p">);</span> <span class="c1">// 缩放矩阵</span>
+<span class="c1">// 矩阵相乘不满足交换律，前后顺序不能颠倒</span>
+</code></pre></div>
+
+
+<p>osg::Referenced  内存管理的类，继承它可以使用超级指针管理内存
+osg::View   管理主相机和从相机
+osgViewer::View   包括事件管理，场景管理，比如setSceneData()，addEventHandler(), setCameraManipulator()</p>
+<h3>OSG 裁剪</h3>
+<p>裁剪技术：</p>
+<ul>
+<li>背面裁剪</li>
+<li>视锥体裁剪</li>
+<li>近平面裁剪</li>
+<li>远平面裁剪</li>
+<li>视锥体侧面裁剪</li>
+<li>细节裁剪</li>
+<li>遮挡裁剪</li>
+<li>聚集裁剪</li>
+</ul>
+<h2>osgViewer</h2>
+<ul>
+<li>setSceneData(osg::Node* node)</li>
+<li>run()</li>
+<li>realize()</li>
+</ul>
+<h2>OSG 字段</h2>
+<p>对象类：osg::Object</p>
+<p>节点类：osg::Node</p>
+<p>LOD类：osg::LOD</p>
+<p>分页数据类：osg::PagedLOD</p>
+<p>几何节点类：osg::Geode</p>
+<p>组节点类：osg::Group</p>
+<p>状态类：osg::StateSet</p>
+<p>属性类：osg::StateAttribute</p>
+<p>材质类：osg::Material</p>
+<p>纹理类：osg::Texture, osg::Texture2D</p>
+<p>可绘制类：osg::Drawable</p>
+<p>几何体类：osg::Geometry</p>
+<p>缓存数据类：osg::BufferData</p>
+<p>片元集合类：osg::PrimitiveSet</p>
+<p>图片类：osg::Image</p>
+<p>缓存对象类： osg::BufferObject</p>
+<p>元素缓存对象类：osg::ElementBufferObject</p>
+<p>顶点缓存对象类：osg::VertexBufferObject</p>
+<p>绘制对象索引类：osg::DrawElementsUnit</p>
+<p>数组类：osg::Array, Vec2Array, Vec3Array</p>
+<h2>osg节点的方法</h2>
+<div class="highlight"><pre><span></span><code><span class="cp"># osg::Node()</span>
+<span class="n">Node</span><span class="p">()</span> <span class="c1">//默认构造函数</span>
+<span class="kt">void</span> <span class="n">dirtyBound</span><span class="p">()</span> <span class="c1">//提示更新节点的包围体</span>
+<span class="k">const</span> <span class="n">BoundingSphere</span> <span class="o">&amp;</span><span class="n">getBound</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取节点的包围体</span>
+<span class="n">BoundingSphere</span> <span class="n">computeBound</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//虚函数，计算节点包围体</span>
+<span class="k">const</span> <span class="n">ParentList</span> <span class="n">getParents</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取节点的父节点列表</span>
+<span class="k">const</span> <span class="n">Group</span> <span class="o">*</span><span class="n">getParent</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span> <span class="c1">//获取制定的父节点</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">getNumParents</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取父节点的数目</span>
+<span class="kt">void</span> <span class="n">addParent</span><span class="p">(</span><span class="n">Group</span> <span class="o">*</span><span class="n">node</span><span class="p">)</span> <span class="c1">//为当前节点追加一个父节点</span>
+<span class="kt">void</span> <span class="n">removeParent</span><span class="p">(</span><span class="n">Group</span> <span class="o">*</span><span class="n">node</span><span class="p">)</span> <span class="c1">//删除当前节点的某个父节点</span>
+
+<span class="kt">void</span> <span class="n">accept</span><span class="p">(</span><span class="n">NodeVisitor</span> <span class="o">&amp;</span><span class="n">nv</span><span class="p">)</span> <span class="c1">//接受一个访问器</span>
+
+<span class="kt">void</span> <span class="n">ascend</span><span class="p">(</span><span class="n">NodeVisitor</span> <span class="o">&amp;</span><span class="n">nv</span><span class="p">)</span> <span class="c1">//虚函数。向上一级节点推进访问器</span>
+<span class="kt">void</span> <span class="n">traverse</span><span class="p">(</span><span class="n">NodeVisitor</span> <span class="o">&amp;</span><span class="n">nv</span><span class="p">)</span> <span class="c1">//虚函数。向下一级节点推进访问器</span>
+
+<span class="c1">//例：获取和操作节点的每一个父节点的方法</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">getNumParents</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="n">osg</span><span class="o">::</span><span class="n">Group</span> <span class="o">*</span><span class="n">parent</span> <span class="o">=</span> <span class="n">node</span><span class="p">.</span><span class="n">getParent</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="cm">/*执行parent对象的操作*/</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">setUpdateCallback</span><span class="p">(</span><span class="n">NodeCallback</span> <span class="o">*</span><span class="p">)</span> <span class="c1">//设置节点的更新回调</span>
+<span class="kt">void</span> <span class="n">addUpdateCallback</span><span class="p">(</span><span class="n">NodeCallback</span> <span class="o">*</span><span class="p">)</span>
+<span class="n">NodeCallback</span> <span class="o">*</span><span class="n">getUpdateCallback</span><span class="p">()</span> <span class="c1">//获取节点的更新回调</span>
+<span class="kt">void</span> <span class="n">setEventCallback</span><span class="p">(</span><span class="n">NodeCallback</span> <span class="o">*</span><span class="p">)</span> <span class="c1">//设置节点的交互事件回调</span>
+<span class="n">NodeCallback</span> <span class="o">*</span><span class="n">getEventCallback</span><span class="p">()</span> <span class="c1">//获取节点的交互事件回调</span>
+</code></pre></div>
+
+
+<h5>osg::Geode()</h5>
+<div class="highlight"><pre><span></span><code><span class="n">Geode</span><span class="p">()</span> <span class="c1">//默认构造函数</span>
+<span class="kt">bool</span> <span class="n">addDrawable</span><span class="p">(</span><span class="n">Drawable</span> <span class="o">*</span><span class="p">)</span> <span class="c1">//从叶节点追加一个可绘制体对象</span>
+<span class="n">boolremoveDrawable</span><span class="p">(</span><span class="n">Drawable</span> <span class="o">*</span><span class="p">)</span> <span class="c1">//从叶节点删除一个可绘制体对象</span>
+<span class="k">virtual</span> <span class="kt">bool</span> <span class="n">removeDrawables</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">numToRemove</span><span class="p">)</span><span class="c1">//从制定索引位置开始，删除制定数目的可绘制体</span>
+<span class="kt">bool</span> <span class="n">replaceDrawable</span><span class="p">(</span><span class="n">Drawable</span> <span class="o">*</span><span class="n">origDraw</span><span class="p">,</span> <span class="n">Drawable</span> <span class="o">*</span><span class="n">newDraw</span><span class="p">)</span> <span class="c1">//将当前节点中包含的一个可绘制体替换为新的可绘制体</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">getNumDrawables</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取可绘制体的数目</span>
+<span class="n">Drawable</span> <span class="o">*</span><span class="n">getDrawables</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="c1">//获取一个指定位置的可绘制体</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">getDrawableIndex</span><span class="p">(</span><span class="k">const</span> <span class="n">Drawable</span> <span class="o">*</span><span class="p">)</span> <span class="k">const</span> <span class="c1">//获取一个可绘制体在叶节点的索引位置</span>
+<span class="k">const</span> <span class="n">DrawableList</span> <span class="o">&amp;</span><span class="n">getDrawableList</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取可绘制体的列表</span>
+
+<span class="c1">//例：在可绘制体drawable1和drawable2中加入一个叶节点,然后从叶节点中获取并操作索引位置为i的可绘制体</span>
+<span class="n">osg</span><span class="o">::</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">osg</span><span class="o">::</span><span class="n">Geode</span><span class="o">&gt;</span> <span class="n">geode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">osg</span><span class="o">::</span><span class="n">Geode</span><span class="p">;</span>
+<span class="n">geode</span><span class="o">-&gt;</span><span class="n">addDrawable</span><span class="p">(</span><span class="n">drawable1</span><span class="p">);</span>
+<span class="n">geode</span><span class="o">-&gt;</span><span class="n">addDrawable</span><span class="p">(</span><span class="n">drawable2</span><span class="p">);</span>
+<span class="n">osg</span><span class="o">::</span><span class="n">Drawable</span> <span class="o">*</span><span class="n">drawable</span> <span class="o">=</span> <span class="n">geode</span><span class="o">-&gt;</span><span class="n">getDrawable</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</code></pre></div>
+
+
+<h5>osg::Group()</h5>
+<div class="highlight"><pre><span></span><code><span class="n">Group</span><span class="p">()</span> <span class="c1">//默认构造函数</span>
+<span class="kt">bool</span> <span class="n">addChild</span><span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">)</span> <span class="c1">//追加一个子节点</span>
+<span class="kt">bool</span> <span class="n">removeChild</span><span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">)</span> <span class="c1">//删除一个子节点</span>
+<span class="kt">bool</span> <span class="n">removeChildren</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">numToRemove</span><span class="p">)</span> <span class="c1">//从指引索引位置开始，删除制定数目的子节点</span>
+<span class="kt">bool</span> <span class="n">insertChild</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">)</span> <span class="c1">//向指定索引位置插入一个子节点</span>
+<span class="kt">bool</span> <span class="n">replaceChild</span><span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">origChild</span><span class="p">,</span> <span class="n">Node</span> <span class="o">*</span><span class="n">newChild</span><span class="p">)</span> <span class="c1">//将当前节点中包含一个子节点替换为新的子节点</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">getNumChildren</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取子节点的数目</span>
+<span class="n">Node</span> <span class="o">*</span><span class="n">getChild</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="c1">//获取一个指定位置的子节点</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">getChildIndex</span><span class="p">(</span><span class="k">const</span> <span class="n">Node</span> <span class="o">*</span><span class="n">node</span><span class="p">)</span> <span class="k">const</span> <span class="c1">//获取一个子节点的索引位置</span>
+</code></pre></div>
+
+
+<h5>osg::NodeVisitor()</h5>
+<div class="highlight"><pre><span></span><code><span class="n">NodeVisitor</span><span class="p">(</span><span class="n">TraversalMode</span> <span class="n">tm</span><span class="p">)</span> <span class="c1">//构造函数。传入参数为节点树的遍历方式：TRAVERSE_NODE仅当前节点；TRAVERSE_PARENTS向当前节点的父节点遍历；TRAVERSE_ALL_CHILDREN向子节点遍历</span>
+<span class="kt">void</span> <span class="n">traverse</span><span class="p">(</span><span class="n">Node</span> <span class="o">&amp;</span><span class="n">node</span><span class="p">)</span> <span class="c1">//向下一个需要访问的节点推进</span>
+<span class="c1">//虚函数。访问各种类型的节点，并执行访问器中自定义的节点操作</span>
+<span class="kt">void</span> <span class="n">apply</span><span class="p">(</span><span class="n">Node</span> <span class="o">&amp;</span><span class="n">node</span><span class="p">)</span>
+<span class="kt">void</span> <span class="n">apply</span><span class="p">(</span><span class="n">Node</span> <span class="o">&amp;</span><span class="n">node</span><span class="p">)</span>
+<span class="kt">void</span> <span class="n">apply</span><span class="p">(</span><span class="n">Node</span> <span class="o">&amp;</span><span class="n">node</span><span class="p">)</span>
+</code></pre></div>
+
+
+<h5>osg::NodeCallback()</h5>
+<div class="highlight"><pre><span></span><code><span class="n">NodeCallback</span><span class="p">()</span> <span class="c1">//默认构造函数</span>
+<span class="kt">void</span> <span class="k">operator</span><span class="p">()(</span><span class="n">Node</span> <span class="o">*</span><span class="n">node</span><span class="p">,</span> <span class="n">NodeVisitor</span> <span class="o">*</span><span class="n">nv</span><span class="p">)</span> <span class="c1">//虚函数。当回调动作发生时，将会执行这一操作符的内容，并将节点和访问器对象作为参数传入</span>
+<span class="kt">void</span> <span class="n">addNestedCallback</span><span class="p">(</span><span class="n">NodeCallback</span> <span class="o">*</span><span class="p">)</span> <span class="c1">//添加一个临近回调，其内容将在节点回调的执行过程中被依次调用</span>
+<span class="kt">void</span> <span class="n">removeNestedCallback</span><span class="p">(</span><span class="n">NodeCallback</span> <span class="o">*</span><span class="p">)</span> <span class="c1">//移除一个临近回调</span>
+<span class="kt">void</span> <span class="n">setNestedCallback</span><span class="p">(</span><span class="n">NodeCallback</span> <span class="o">*</span><span class="p">)</span> <span class="c1">//直接设置一个临近回调</span>
+<span class="n">NodeCallback</span> <span class="o">*</span><span class="n">getNestedCallback</span><span class="p">(</span><span class="n">NodeCallback</span> <span class="o">*</span><span class="p">)</span> <span class="c1">//直接获取一个临近回调</span>
+</code></pre></div>
+
+
+<h5>osg::Transform()</h5>
+<div class="highlight"><pre><span></span><code><span class="n">Transform</span><span class="p">()</span> <span class="c1">//默认构造函数</span>
+<span class="kt">void</span> <span class="n">setReferenceFrame</span><span class="p">(</span><span class="n">ReferenceFrame</span> <span class="n">rf</span><span class="p">)</span> <span class="c1">//设置节点所用的参考坐标系</span>
+<span class="n">ReferenceFrame</span> <span class="n">getReferenceFrame</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取节点所用的参考坐标系</span>
+<span class="kt">bool</span> <span class="n">computerLocalToWorldMatrix</span><span class="p">(</span><span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">matrix</span><span class="p">,</span> <span class="n">NodeVisitor</span> <span class="o">*</span><span class="n">nv</span><span class="p">)</span> <span class="k">const</span> <span class="c1">//虚函数。计算从局部坐标系到世界坐标系的级联矩阵，保存到matrix变量中</span>
+<span class="kt">bool</span> <span class="n">computerWorldToLocalMatrix</span><span class="p">(</span><span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">matrix</span><span class="p">,</span> <span class="n">NodeVisitor</span> <span class="o">*</span><span class="n">nv</span><span class="p">)</span> <span class="k">const</span> <span class="c1">//虚函数。计算从世界坐标系到局部坐标系的级联矩阵，保存到matrix变量</span>
+</code></pre></div>
+
+
+<h5>osg::MatrixTransform()</h5>
+<div class="highlight"><pre><span></span><code><span class="n">MatrixTransform</span><span class="p">()</span> <span class="c1">//默认构造函数</span>
+<span class="kt">void</span> <span class="n">setMatrix</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">mat</span><span class="p">)</span> <span class="c1">//设置空间变换矩阵的内容</span>
+<span class="k">const</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">getMatrix</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取空间变换矩阵的内容</span>
+<span class="kt">void</span> <span class="n">preMult</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">mat</span><span class="p">)</span> <span class="c1">//递乘，比较类似于++a</span>
+<span class="kt">void</span> <span class="n">postMult</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">mat</span><span class="p">)</span> <span class="c1">//递乘，比较类似于a++</span>
+<span class="k">const</span> <span class="n">Matrix</span> <span class="o">&amp;</span><span class="n">getInverseMatrix</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//得到逆矩阵</span>
+</code></pre></div>
+
+
+<h5>osg::PositionAttitudeTransform()</h5>
+<div class="highlight"><pre><span></span><code><span class="n">PositionAttitudeTransform</span><span class="p">()</span> <span class="c1">//默认构造函数</span>
+<span class="kt">void</span> <span class="n">setPosition</span><span class="p">(</span><span class="k">const</span> <span class="n">VEC3D</span> <span class="o">&amp;</span><span class="p">)</span> <span class="c1">//设置空间中平移的距离</span>
+<span class="k">const</span> <span class="n">Vec3d</span> <span class="o">&amp;</span><span class="n">getPosition</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取空间中平移的距离</span>
+<span class="kt">void</span> <span class="n">setAttitude</span><span class="p">(</span><span class="k">const</span> <span class="n">Quat</span> <span class="o">&amp;</span><span class="p">)</span> <span class="c1">//设置空间中旋转的四元数</span>
+<span class="k">const</span> <span class="n">Quat</span> <span class="o">&amp;</span><span class="n">getAttitude</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取空间中旋转的四元数</span>
+<span class="kt">void</span> <span class="n">setScale</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec3d</span> <span class="o">&amp;</span><span class="p">)</span> <span class="c1">//设置空间缩放的倍数</span>
+<span class="k">const</span> <span class="n">Vec3d</span><span class="o">&amp;</span> <span class="n">getScale</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取空间缩放的倍数</span>
+<span class="kt">void</span> <span class="n">setPivotPoint</span><span class="p">(</span><span class="k">const</span> <span class="n">Vec3d</span><span class="o">&amp;</span><span class="p">)</span> <span class="c1">//设置空间旋转与缩放的轴心位置</span>
+<span class="k">const</span> <span class="n">Vec3d</span><span class="o">&amp;</span> <span class="n">getPivotPoint</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取空间旋转与缩放的轴心位置</span>
+</code></pre></div>
+
+
+<h5>osg::Switch</h5>
+<div class="highlight"><pre><span></span><code><span class="n">Switch</span><span class="p">()</span> <span class="c1">//默认构造函数</span>
+<span class="kt">bool</span> <span class="n">addChild</span><span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span> <span class="c1">//添加一个子节点，同时设置其开关值</span>
+<span class="kt">void</span> <span class="n">setValue</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span> <span class="c1">//设置指定索引pos位置子节点的开关值</span>
+<span class="kt">bool</span> <span class="n">getValue</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">)</span> <span class="k">const</span> <span class="c1">//获取指定索引pos位置子节点的开关值</span>
+<span class="kt">void</span> <span class="n">setNewChildDefaultValue</span><span class="p">(</span><span class="kt">bool</span> <span class="n">value</span><span class="p">)</span> <span class="c1">//设置新加节点的初始值</span>
+<span class="kt">bool</span> <span class="n">getNewChildDefaultValue</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//得到新加节点的初始值</span>
+<span class="kt">void</span> <span class="n">setChildValue</span><span class="p">(</span><span class="k">const</span> <span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">value</span><span class="p">)</span> <span class="c1">//设置child的值</span>
+<span class="kt">bool</span> <span class="n">getChildValue</span><span class="p">(</span><span class="k">const</span> <span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">)</span> <span class="k">const</span> <span class="c1">//得到child的值</span>
+<span class="kt">bool</span> <span class="n">setAllChildrenOff</span><span class="p">()</span> <span class="c1">//设置所有子节点不显示</span>
+<span class="kt">bool</span> <span class="n">setAllChildrenOn</span><span class="p">()</span> <span class="c1">//设置所有子节点显示</span>
+<span class="kt">bool</span> <span class="n">setSingleChildOn</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">)</span> <span class="c1">//设置索引pos单个节点显示</span>
+</code></pre></div>
+
+
+<h5>osg::LOD</h5>
+<div class="highlight"><pre><span></span><code><span class="n">LOD</span><span class="p">()</span> <span class="c1">//默认构造函数</span>
+<span class="kt">bool</span> <span class="n">addChild</span><span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">,</span> <span class="kt">float</span> <span class="n">min</span><span class="p">,</span> <span class="kt">float</span> <span class="n">max</span><span class="p">)</span> <span class="c1">//添加一个子节点，并设置其对应的观察范围</span>
+<span class="kt">void</span> <span class="n">setRange</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">childNo</span><span class="p">,</span> <span class="kt">float</span> <span class="n">min</span><span class="p">,</span> <span class="kt">float</span> <span class="n">max</span><span class="p">)</span> <span class="c1">//设置指定位置的子节点对应的观察范围</span>
+<span class="kt">float</span> <span class="n">getMinRange</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">childNo</span><span class="p">)</span> <span class="k">const</span> <span class="c1">//获取某个子节点对应的观察最小值</span>
+<span class="kt">float</span> <span class="n">getMaxRange</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">childNo</span><span class="p">)</span> <span class="k">const</span> <span class="c1">//获取某个子节点对应的观察最大值</span>
+<span class="k">const</span> <span class="n">RangeList</span> <span class="o">&amp;</span><span class="n">getRangeList</span><span class="p">()</span> <span class="k">const</span> <span class="c1">//获取所有子节点观察范围的列表</span>
+</code></pre></div>
+
+
+<h5>osg::PagedLOD</h5>
+<p>DatabasePager::setTargetMaximumNumberOfPageLOD函数或环境变量OSG_MAX_PAGEDLOD就是干这个的。他告诉DatabasePager我的电脑内存有限只能容纳指定数量的 PagedLOD ，超出这个数的过期 PagedLOD 就让他滚蛋吧。</p>
+<p>数据的动态调度可以使用多线程的工作方式，使数据的动态调度和场景的实时绘制同时进行</p>
+<h5>深度复制节点数据</h5>
+<div class="highlight"><pre><span></span><code><span class="n">osg</span><span class="o">::</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">osg</span><span class="o">::</span><span class="n">Node</span><span class="o">&gt;</span> <span class="n">deepnode</span> <span class="o">=</span> <span class="p">(</span><span class="n">osg</span><span class="o">::</span><span class="n">Node</span><span class="o">*</span><span class="p">)(</span><span class="n">item</span><span class="o">-&gt;</span><span class="n">clone</span><span class="p">(</span><span class="n">osg</span><span class="o">::</span><span class="n">CopyOp</span><span class="o">::</span><span class="n">DEEP_COPY_ALL</span><span class="p">));</span>
+</code></pre></div>
+
+
+<h2>osg::Camera</h2>
+<div class="highlight"><pre><span></span><code><span class="n">osg</span><span class="o">::</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">osg</span><span class="o">::</span><span class="n">GraphicsContext</span><span class="o">::</span><span class="n">Traits</span><span class="o">&gt;</span> <span class="n">traits</span> <span class="o">=</span> <span class="k">new</span> <span class="n">osg</span><span class="o">::</span><span class="n">GraphicsContext</span><span class="o">::</span><span class="n">Traits</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">width</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">height</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+<span class="c1">// 设置窗口的特性。其中X，Y表示的是所建立的窗口左上角，在屏幕上的位置 原点在屏幕的左上角，向右为X轴正方向，向下为Y轴正方向。</span>
+</code></pre></div>
+
+
+<div class="highlight"><pre><span></span><code><span class="n">getCamera</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setViewport</span><span class="p">(</span><span class="k">new</span> <span class="n">osg</span><span class="o">::</span><span class="n">Viewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">));</span> <span class="c1">// 设置视窗的坐标，坐标原点在窗口左下角，水平向右为X轴正方向，向上为Y轴正方向；</span>
+<span class="n">getCamera</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setProjectionMatrixAsPerspective</span><span class="p">(</span><span class="mf">30.0f</span><span class="p">,</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">/</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">h</span><span class="p">),</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">10000.0f</span><span class="p">);</span>
+<span class="n">getCamera</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setGraphicsContext</span><span class="p">(</span><span class="n">getGraphicsWindow</span><span class="p">());</span>
+<span class="n">getCamera</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setDrawBuffer</span><span class="p">(</span><span class="n">GL_BACK</span><span class="p">);</span>
+<span class="n">getCamera</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setReadBuffer</span><span class="p">(</span><span class="n">GL_BACK</span><span class="p">);</span>
+<span class="n">setThreadingModel</span><span class="p">(</span><span class="n">osgViewer</span><span class="o">::</span><span class="n">Viewer</span><span class="o">::</span><span class="n">SingleThreaded</span><span class="p">);</span>
+</code></pre></div>
+
+
+<div class="highlight"><pre><span></span><code><span class="n">osg</span><span class="o">::</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">osg</span><span class="o">::</span><span class="n">GraphicsContext</span><span class="o">::</span><span class="n">Traits</span><span class="o">&gt;</span> <span class="n">traits</span> <span class="o">=</span> <span class="k">new</span> <span class="n">osg</span><span class="o">::</span><span class="n">GraphicsContext</span><span class="o">::</span><span class="n">Traits</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">screenNum</span> <span class="o">=</span> <span class="n">multipleScreens</span> <span class="o">?</span> <span class="n">i</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">width</span><span class="p">)</span><span class="o">/</span><span class="n">numCameras</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span><span class="o">/</span><span class="n">numCameras</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">windowDecoration</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">doubleBuffer</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">sharedContext</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">readDISPLAY</span><span class="p">();</span>
+<span class="n">traits</span><span class="o">-&gt;</span><span class="n">setUndefinedScreenDetailsToDefaultScreen</span><span class="p">();</span>
+
+<span class="n">osg</span><span class="o">::</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">osg</span><span class="o">::</span><span class="n">GraphicsContext</span><span class="o">&gt;</span> <span class="n">gc</span> <span class="o">=</span> <span class="n">osg</span><span class="o">::</span><span class="n">GraphicsContext</span><span class="o">::</span><span class="n">createGraphicsContext</span><span class="p">(</span><span class="n">traits</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+
+
+<span class="n">osg</span><span class="o">::</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">osg</span><span class="o">::</span><span class="n">Camera</span><span class="o">&gt;</span> <span class="n">camera</span> <span class="o">=</span> <span class="k">new</span> <span class="n">osg</span><span class="o">::</span><span class="n">Camera</span><span class="p">;</span>
+<span class="n">camera</span><span class="o">-&gt;</span><span class="n">setGraphicsContext</span><span class="p">(</span><span class="n">gc</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+<span class="n">camera</span><span class="o">-&gt;</span><span class="n">setViewport</span><span class="p">(</span><span class="k">new</span> <span class="n">osg</span><span class="o">::</span><span class="n">Viewport</span><span class="p">((</span><span class="n">i</span><span class="o">*</span><span class="n">width</span><span class="p">)</span><span class="o">/</span><span class="n">numCameras</span><span class="p">,(</span><span class="n">i</span><span class="o">*</span><span class="n">height</span><span class="p">)</span><span class="o">/</span><span class="n">numCameras</span><span class="p">,</span> <span class="n">width</span><span class="o">/</span><span class="n">numCameras</span><span class="p">,</span> <span class="n">height</span><span class="o">/</span><span class="n">numCameras</span><span class="p">));</span>
+<span class="n">GLenum</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">traits</span><span class="o">-&gt;</span><span class="n">doubleBuffer</span> <span class="o">?</span> <span class="nl">GL_BACK</span> <span class="p">:</span> <span class="n">GL_FRONT</span><span class="p">;</span>
+<span class="n">camera</span><span class="o">-&gt;</span><span class="n">setDrawBuffer</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+<span class="n">camera</span><span class="o">-&gt;</span><span class="n">setReadBuffer</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+
+<span class="n">viewer</span><span class="p">.</span><span class="n">addSlave</span><span class="p">(</span><span class="n">camera</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">osg</span><span class="o">::</span><span class="n">Matrixd</span><span class="p">(),</span> <span class="n">osg</span><span class="o">::</span><span class="n">Matrixd</span><span class="o">::</span><span class="n">scale</span><span class="p">(</span><span class="n">aspectRatioScale</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">));</span>
+</code></pre></div>
+
+
+<div class="highlight"><pre><span></span><code><span class="c1">// 得到相机的默认参数设置</span>
+<span class="n">osg</span><span class="o">::</span><span class="n">Vec3d</span> <span class="n">eye</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">up</span><span class="p">;</span>
+<span class="n">viewer</span><span class="o">-&gt;</span><span class="n">getCamera</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getViewMatrixAsLookAt</span><span class="p">(</span><span class="n">eye</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">up</span><span class="p">);</span>
+<span class="c1">// 修改相机参数</span>
+<span class="n">eye</span> <span class="o">=</span> <span class="n">osg</span><span class="o">::</span><span class="n">Vec3d</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+<span class="n">center</span> <span class="o">=</span> <span class="n">osg</span><span class="o">::</span><span class="n">Vec3d</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+<span class="n">up</span> <span class="o">=</span> <span class="n">osg</span><span class="o">::</span><span class="n">Vec3d</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="c1">// 将参数设置给相机</span>
+<span class="n">viewer</span><span class="o">-&gt;</span><span class="n">getCamera</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setViewMatrixAsLookAt</span><span class="p">(</span><span class="n">eye</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">up</span><span class="p">);</span>
+<span class="c1">// 仿真循环</span>
+<span class="n">viewer</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">();</span>
+</code></pre></div>
+
+
+<p>setViewMatrixAsLookAt： 在世界坐标系中设置相机的<strong>位置</strong>和<strong>姿态信息</strong>。</p>
+<p>setViewMatrix: 设置相机坐标系下，设置三维世界的位置。</p>
+<h3>修改视图背景颜色</h3>
+<div class="highlight"><pre><span></span><code><span class="n">viewer</span><span class="o">-&gt;</span><span class="n">getCamera</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setClearColor</span><span class="p">(</span><span class="n">osg</span><span class="o">::</span><span class="n">vec4</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span> <span class="c1">// 参数RGB和透明度</span>
+</code></pre></div>
+
+
+<h3>OSG中漫游器</h3>
+<p>什么是漫游器？</p>
+<ul>
+<li>漫游器就是观察者的视角位置的变换，而不是被观察的视界的物体</li>
+<li>osg中的漫游器，设置的是相机在世界坐标中的位置姿态矩阵。</li>
+</ul>
+<p>漫游器中有的参数：</p>
+<div class="highlight"><pre><span></span><code><span class="err">_center     漫游器中心</span>
+<span class="err">_rotation   旋转姿态</span>
+<span class="err">_distance   相机到中心的距离，也可以理解为旋转半径</span>
+</code></pre></div>
+
+
+<p>osgGA库中所有漫游器的基类是CameraManipulator</p>
+<p>osgGA::CameraManipulator中提到了另一个函数getCoordinateFrame，这个函数是用来获取相机坐标系框架，通过它可以得到当前相机坐标系的坐标轴向。</p>
+<p>通过osgGA::CameraManipulator提供的另外三个函数：</p>
+<div class="highlight"><pre><span></span><code><span class="err">        osg::Vec3d getSideVector(const osg::CoordinateFrame&amp; cf) const { return osg::Vec3d(cf(0,0),cf(0,1),cf(0,2)); }</span>
+<span class="err">        osg::Vec3d getFrontVector(const osg::CoordinateFrame&amp; cf) const { return osg::Vec3d(cf(1,0),cf(1,1),cf(1,2)); }</span>
+<span class="err">        osg::Vec3d getUpVector(const osg::CoordinateFrame&amp; cf) const { return osg::Vec3d(cf(2,0),cf(2,1),cf(2,2)); }</span>
+</code></pre></div>
+
+
+<p>可以得到当前相机坐标的右、前、上的方向，可以方便地计算角色向前移动、向右移动、旋转等操作。</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="n">setByMatrix</span><span class="p">(</span><span class="k">const</span> <span class="n">osg</span><span class="o">::</span><span class="n">Matrix</span><span class="o">&amp;</span><span class="p">)</span> <span class="c1">// 虚函数 设置相机的位置姿态矩阵，或者直接设置相机的观察矩阵</span>
+
+<span class="kt">void</span> <span class="n">setByInverseMatrix</span><span class="p">(</span><span class="k">const</span> <span class="n">osg</span><span class="o">::</span><span class="n">Matrixd</span><span class="o">&amp;</span><span class="p">)</span>
+
+<span class="n">osg</span><span class="o">::</span><span class="n">Matrixd</span> <span class="n">getMatrix</span><span class="p">()</span> <span class="k">const</span> <span class="c1">// 虚函数，获取相机的位置姿态矩阵，或者相机的观察矩阵，通常由OSG系统内部获取并实时调整场景的漫游方式</span>
+<span class="n">osg</span><span class="o">::</span><span class="n">Matrixd</span> <span class="n">getInverseMatrix</span><span class="p">()</span> <span class="k">const</span>  <span class="c1">// 相机坐标系和世界坐标系之间的变换矩阵</span>
+
+<span class="kt">void</span> <span class="n">home</span><span class="p">(</span><span class="k">const</span> <span class="n">GUIEventAdapter</span><span class="o">&amp;</span><span class="p">,</span><span class="n">GUIActionAdapter</span><span class="o">&amp;</span><span class="p">)</span> <span class="c1">// 回到场景的初始位置，何谓初始位置是由漫游器自己定义</span>
+<span class="kt">bool</span> <span class="n">handle</span><span class="p">(</span><span class="k">const</span> <span class="n">GUIEventAdapter</span><span class="o">&amp;</span> <span class="n">ea</span><span class="p">,</span><span class="n">GUIActionAdapter</span><span class="o">&amp;</span><span class="p">,</span><span class="n">GUIActionAdapter</span><span class="o">&amp;</span> <span class="n">us</span><span class="p">)</span> <span class="c1">// 根据用户的交互动作（交互事件和反馈动作），调整漫游方式和漫游器的位置、姿态。</span>
+</code></pre></div>
+
+
+<p>用户可以在handle中设置交互逻辑，在帧事件中改变速度、方向、姿态。</p>
+<p>viewer-&gt;setCameraManipulator() 设置漫游器</p>
+<p>漫游器的更新</p>
+<p>在viewer类中updateTraverseal函数中有如下代码：</p>
+<div class="highlight"><pre><span></span><code> <span class="k">if</span> <span class="p">(</span><span class="n">_cameraManipulator</span><span class="p">.</span><span class="n">valid</span><span class="p">())</span>
+<span class="p">{</span>
+    <span class="n">setFusionDistance</span><span class="p">(</span> <span class="n">getCameraManipulator</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getFusionDistanceMode</span><span class="p">(),</span>
+                        <span class="n">getCameraManipulator</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getFusionDistanceValue</span><span class="p">()</span> <span class="p">);</span>
+
+    <span class="n">_cameraManipulator</span><span class="o">-&gt;</span><span class="n">updateCamera</span><span class="p">(</span><span class="o">*</span><span class="n">_camera</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// updateCamera()实际实现</span>
+ <span class="cm">/** update the camera for the current frame, typically called by the viewer classes. </span>
+<span class="cm">            Default implementation simply set the camera view matrix. */</span>
+<span class="k">virtual</span> <span class="kt">void</span> <span class="n">updateCamera</span><span class="p">(</span><span class="n">osg</span><span class="o">::</span><span class="n">Camera</span><span class="o">&amp;</span> <span class="n">camera</span><span class="p">)</span> <span class="p">{</span>                                                <span class="n">camera</span><span class="p">.</span><span class="n">setViewMatrix</span><span class="p">(</span><span class="n">getInverseMatrix</span><span class="p">());</span> 
+<span class="p">}</span>
+</code></pre></div>
+
+
+<h4>关于漫游器，观察矩阵是姿态矩阵的逆？</h4>
+<blockquote>
+<p>可以想象一下：观察者在世界中的运动，可以理解为世界在观察者眼中的逆运动</p>
+<p>漫游器设置的是相机在世界坐标中的位置姿态矩阵；而相机的观察矩阵表达的是世界在观察坐标系下的位置姿态。这两个矩阵互为逆矩阵，即，相机在世界中的姿态，就是世界在相机中的姿态的逆过程。</p>
+</blockquote>
+<h3>基础 MVPW</h3>
+<p>M: model  模型</p>
+<p>模型顶点在三维场景中的坐标位置 worldPos = pos * matrix</p>
+<ul>
+<li>pos 为模型的顶点位置</li>
+<li>matrix: 变换矩阵</li>
+</ul>
+<p>V  ViewMatrix  观察矩阵</p>
+<p>作用：将世界坐标转换为相机坐标。在相机坐标系下，以相机为参考，其位置为原点，world * viewMatrix可以获得模型顶点在相机坐标下的位置</p>
+<p>P projectMatrix  投影矩阵</p>
+<p>投影的作用：将三维坐标信息转化到二维坐标中。</p>
+<p>两种方式：</p>
+<ul>
+<li>透视投影</li>
+<li>正交投影</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// OSG中设置正交投影的接口</span>
+<span class="n">Camera</span><span class="o">::</span><span class="n">setProjectionMatrixAsOrtho</span><span class="p">(</span><span class="kt">double</span> <span class="n">left</span><span class="p">,</span> <span class="kt">double</span> <span class="n">right</span><span class="p">,</span>
+<span class="kt">double</span> <span class="n">bottom</span><span class="p">,</span> <span class="kt">double</span> <span class="n">top</span><span class="p">,</span> <span class="kt">double</span> <span class="n">zNear</span><span class="p">,</span> <span class="kt">double</span> <span class="n">zFar</span><span class="p">);</span>
+<span class="c1">// left表示视景体左面的坐标，right表示右面的坐标，bottom表示下面的，top表示上面的。</span>
+
+<span class="c1">// 透视投影设置接口如下</span>
+<span class="n">Camera</span><span class="o">::</span><span class="n">setProjectionMatrixAsPerspective</span><span class="p">(</span><span class="kt">double</span> <span class="n">fovy</span><span class="p">,</span> <span class="kt">double</span> <span class="n">aspectRatio</span><span class="p">,</span> <span class="kt">double</span> <span class="n">zNear</span><span class="p">,</span> <span class="kt">double</span> <span class="n">zFar</span><span class="p">);</span>
+<span class="c1">// fovy——相机的角度大小,视角小就是焦距大（长焦），视角大就是焦距小（广角）；</span>
+<span class="c1">// aspect——实际窗口的纵横比，即width(窗口宽度)/ height(窗口高度)；</span>
+<span class="c1">// zNear——近处裁面，如果物体的位置到相机距离小于近裁剪面，该物体会被相机裁剪掉；</span>
+<span class="c1">// zFar——远处的裁面，如果物体的位置到相机距离大于远裁剪面，该物体会被相机裁剪掉。</span>
+</code></pre></div>
+
+
+<p>窗口矩阵变化 Windows</p>
+<p>窗口矩阵变换的主要作用：将视口裁剪后的结果映射到屏幕中，通过viewport获取屏幕显示区域的大小，将帧缓冲区域内的数据转变为能显示在屏幕上的像素。</p>
+<h1>osg内置shader变量</h1>
+<div class="highlight"><pre><span></span><code><span class="n">uniform</span> <span class="nb">int</span> <span class="n">osg_FrameNumber</span><span class="err">：当前</span><span class="n">OSG程序运行的帧数</span><span class="err">；</span>
+<span class="n">uniform</span> <span class="nb">float</span> <span class="n">osg_FrameTime</span><span class="err">：当前</span><span class="n">OSG程序的运行总时间</span><span class="err">；</span>
+<span class="n">uniform</span> <span class="nb">float</span> <span class="n">osg_DeltaFrameTime</span><span class="err">：当前</span><span class="n">OSG程序运行每帧的间隔时间</span><span class="err">；</span>
+<span class="n">uniform</span> <span class="n">mat4</span> <span class="n">osg_ViewMatrix</span><span class="err">：当前</span><span class="n">OSG摄像机的观察矩阵</span><span class="err">；</span>
+<span class="n">uniform</span> <span class="n">mat4</span> <span class="n">osg_ViewMatrixInverse</span><span class="err">：当前</span><span class="n">OSG摄像机观察矩阵的逆矩阵</span><span class="err">。</span>
+<span class="n">uniform</span> <span class="n">mat4</span> <span class="n">osg_ModelViewMatrix</span><span class="err">：内置</span><span class="n">gl_ModelViewMatrix</span>
+<span class="n">uniform</span> <span class="n">mat4</span> <span class="n">osg_ModelViewProjectionMatrix</span><span class="err">：内置</span><span class="n">gl_ModelViewProjectionMatrix</span>
+<span class="n">uniform</span> <span class="n">mat4</span> <span class="n">osg_ProjectionMatrix</span><span class="err">：内置</span><span class="n">gl_ProjectionMatrix</span>
+<span class="n">uniform</span> <span class="n">mat3</span> <span class="n">osg_NormalMatrix</span><span class="err">：内置</span><span class="n">gl_NormalMatrix</span>
+
+<span class="n">attribute</span><span class="err">：应用程序与顶点着色器的接口，使用顶点属性定义函数进行定义；</span>
+<span class="n">uniform</span><span class="err">：应用程序与所有着色器的接口，定义不随顶点变化的“一致变量”；</span>
+<span class="nb">varying</span><span class="err">：着色器之间的“易变变量”接口，用于传递插值得到的顶点数据；</span>
+<span class="n">const</span><span class="err">：用于声明常量数据；</span>
+<span class="k">in</span><span class="err">：作为函数形参进行传递，函数返回时不保留改变，只保留传入值；</span>
+<span class="k">out</span><span class="err">：作为函数形参进行传递，本身未定义，函数返回时保留改变值；</span>
+<span class="k">inout</span><span class="err">：作为函数形参进行传递，可以定义传入值，也会保留返回时的改变值。</span>
+<span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gl_NormalMatrix</span><span class="err">：法线变换矩阵；</span>
+<span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gl_ModelViewMatrix</span><span class="err">：模型视点变换矩阵；</span>
+<span class="n">attribute</span> <span class="n">vec4</span> <span class="n">gl_Vertex</span><span class="err">：顶点坐标属性；</span>
+<span class="n">attribute</span> <span class="n">vec4</span> <span class="n">gl_MultiTexCoord0</span><span class="err">：纹理单元</span><span class="mi">0</span><span class="err">的纹理坐标属性；</span>
+<span class="nb">varying</span> <span class="n">vec4</span> <span class="n">gl_TexCoord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">：纹理单元</span><span class="mi">0</span><span class="err">的实际纹理坐标。</span>
+</code></pre></div>
+
+
+<h1>相关文档</h1>
+<h4>osg 几何体绘制</h4>
+<p>https://blog.csdn.net/hudfang/article/details/46724605</p>
+<h4>圆点绘制参考</h4>
+<p>https://developer.aliyun.com/article/781532</p>
+<h4>OpenGL中的功能与OSG对应功能</h4>
+<p>https://blog.csdn.net/hankern/article/details/84051611</p>
+<h4>OSG3</h4>
+<p>https://github.com/mylxiaoyi/osg3/tree/master/source</p>
+<h4>使用技巧</h4>
+<blockquote>
+<p>总之来说，将多个Geometry合并成一个Geometry几乎是业界普遍认为最简单、最有效、最普遍、最应该使用的优化方法。也就是我们追究求的就是CPU尽量少次多量的向GPU提交数据。</p>
+</blockquote></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        leelongcrazy
+    </span>
+  </span>
+<time datetime="2023-05-13T17:00:00+08:00" pubdate>Sat 13 May 2023</time>  <span class="categories">
+    <a class='category' href='/category/it.html'>IT</a>
+  </span>
+  <span class="categories">
+    <a class="category" href="/tag/code.html">Code</a>,    <a class="category" href="/tag/osg.html">Osg</a>  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/change-to-zsh-and-ohmyzsh.html">Change to zsh and ohmyzsh</a>
+      </li>
+      <li class="post">
+          <a href="/dian-yun.html">点云</a>
+      </li>
+      <li class="post">
+          <a href="/osg-use.html">osg use</a>
+      </li>
+      <li class="post">
+          <a href="/use-cmake.html">Use CMake</a>
+      </li>
+      <li class="post">
+          <a href="/linux-just-for-fun.html">Linux Just For Fun</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/article.html">Article</a></li>
+        <li><a href="/category/books.html">Books</a></li>
+        <li><a href="/category/cpp.html">CPP</a></li>
+        <li><a href="/category/import.html">Import</a></li>
+        <li><a href="/category/it.html">IT</a></li>
+        <li><a href="/category/movie.html">Movie</a></li>
+        <li><a href="/category/software.html">Software</a></li>
+        <li><a href="/category/tech.html">TECH</a></li>
+        <li><a href="/category/web.html">Web</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/tag/it.html">It</a>,    <a href="/tag/linux.html">Linux</a>,    <a href="/tag/tech.html">Tech</a>,    <a href="/tag/code.html">Code</a>,    <a href="/tag/osg.html">Osg</a>,    <a href="/tag/program.html">Program</a>,    <a href="/tag/debug.html">Debug</a>,    <a href="/tag/mac.html">mac</a>,    <a href="/tag/programe.html">Programe</a>,    <a href="/tag/nginx.html">nginx</a>,    <a href="/tag/vim.html">Vim</a>,    <a href="/tag/git.html">Git</a>,    <a href="/tag/qt.html">Qt</a>,    <a href="/tag/c.html">C++</a>,    <a href="/tag/edu.html">Edu</a>,    <a href="/tag/websec.html">WebSec</a>,    <a href="/tag/pwn.html">PWN</a>,    <a href="/tag/mfc.html">MFC</a>,    <a href="/tag/vue.html">VUE</a>,    <a href="/tag/bash.html">Bash</a>,    <a href="/tag/zsh.html">zsh</a>,    <a href="/tag/github.html">Github</a>,    <a href="/tag/os.html">os</a>,    <a href="/tag/python.html">Python</a>,    <a href="/tag/iot.html">Iot</a>,    <a href="/tag/ai.html">AI</a>,    <a href="/tag/movie.html">Movie</a>,    <a href="/tag/article.html">Article</a>  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="https://github.com/leelong2020" target="_blank">Github</a></li>
+            <li><a href="https://twitter.com/leelong2020" target="_blank">Twitter</a></li>
+            <li><a href="https://linkedin.com/in/leexiangjun2022" target="_blank">Linkedin</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="http://leelongcrazy.com" target="_blank">LeeLongCrazy</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2017&ndash;2024  leelongcrazy &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+</body>
+</html>

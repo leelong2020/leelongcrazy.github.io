@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>VIM注释代码与反注释 &mdash; leelongcrazy's blog</title>
+  <title>点云 &mdash; leelongcrazy's blog</title>
   <meta name="author" content="leelongcrazy">
 
 
@@ -50,7 +50,7 @@
       <li >
         <a href="/category/import.html">Import</a>
       </li>
-      <li class="active">
+      <li >
         <a href="/category/it.html">It</a>
       </li>
       <li >
@@ -59,7 +59,7 @@
       <li >
         <a href="/category/software.html">Software</a>
       </li>
-      <li >
+      <li class="active">
         <a href="/category/tech.html">Tech</a>
       </li>
       <li >
@@ -71,40 +71,101 @@
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">VIM注释代码与反注释</h1>
+      <h1 class="entry-title">点云</h1>
     <p class="meta">
-<time datetime="2018-02-28T17:00:00+08:00" pubdate>Wed 28 February 2018</time>    </p>
+<time datetime="2023-08-16T17:00:00+08:00" pubdate>Wed 16 August 2023</time>    </p>
 </header>
 
-  <div class="entry-content"><h2>VIM注释代码与反注释</h2>
-<h3>方法一： 块选择模式注释</h3>
-<ol>
-<li>按键“V”进入 <em>visual模式</em>，选中需要注释的代码行；</li>
-<li><code>Ctrl + V</code>  进去 <em>块选择模式</em>；</li>
-<li><code>I</code>进入插入模式，输入注释符号 “#” 或者 “//”...；</li>
+  <div class="entry-content"><h2>分类</h2>
+<ul>
+<li>有向点云</li>
 <li>
-<p>立即按下<code>ESC</code>键两次，即可注释完成</p>
+<p>无向点云</p>
 </li>
 <li>
-<p>取消注释</p>
+<p>有序点云：结构类似于<strong>矩阵</strong>，有<strong>宽度和高度</strong>，<strong>按照顺序排列</strong>，因此可以很快地查找临近点信息（之所以呈现不同形状是因为有序点云中包含无效点，无效点坐标一般都被标记为 (0,0,0)）；</p>
+</li>
+<li>无序点云：数据点排列<strong>没有任何顺序</strong>，杂乱地分布在空间中。</li>
+</ul>
+<p>点云分割：指将整个点云聚类为多部分点云, 每部分点云对应独立的物体对象, 分为部件级分割、场景级分割和对象级分割.</p>
 <ul>
-<li><code>Ctrl + V</code>  进去 <em>块选择模式</em>；</li>
-<li>选择要删除的注释符号，按<code>d</code>删除即可</li>
+<li>部件级分割：</li>
 </ul>
-</li>
-</ol>
-<h3>方法二：</h3>
+<p>形状分类：点云分类是为每个点或组分配语义标签的过程</p>
+<p>目标检测：指找出指定区域中所有感兴趣的物体,包含物体定位和物体分类 2 个子任务. 依据数据输入方式, 分为基于多视图、基于体素、基于点的方法</p>
+<p>降采样（特征点）</p>
+<p>点云平滑</p>
+<p>点云配准</p>
+<h3>操作</h3>
 <ul>
-<li>批量注释<ul>
-<li><code>：开始行号，结束行号/s/^/注释符号/g</code></li>
+<li>点云数据合并</li>
+<li>分块<ul>
+<li>包围盒分块<ul>
+<li>长度</li>
+<li>宽度</li>
 </ul>
 </li>
-<li>取消注释<ul>
-<li><code>：开始行号，结束行号/s/^注释符号//g</code></li>
+<li>按点数分块</li>
+<li>多边形分割 </li>
 </ul>
 </li>
 </ul>
-<p><a href="https://blog.csdn.net/xiajun07061225/article/details/8488210">参考链接：https://blog.csdn.net/xiajun07061225/article/details/8488210</a></p></div>
+<h1>点云</h1>
+<ul>
+<li>点云数据读写操作</li>
+</ul>
+<p>https://blog.csdn.net/xinjiang666/article/details/105865499</p>
+<ul>
+<li>OSG 显示点云一</li>
+</ul>
+<p>https://blog.csdn.net/qq_34719188/article/details/89843043</p>
+<ul>
+<li>点云入门手册</li>
+</ul>
+<p>https://gitee.com/ufi/point-cloud-tutorial</p>
+<h2>las头信息</h2>
+<h4>公共文件头区</h4>
+<p>如文件采集日期，生成软件，点记录个数等</p>
+<h4>变长记录区</h4>
+<p>一些元数据，比如坐标系信息</p>
+<h4>点记录区</h4>
+<div class="highlight"><pre><span></span><code> <span class="n">Xcoordinate</span> <span class="o">=</span> <span class="p">(</span><span class="n">Xrecord</span> <span class="o">*</span> <span class="n">Xscale</span><span class="p">)</span> <span class="o">+</span> <span class="n">Xoffset</span>
+ <span class="n">Ycoordinate</span> <span class="o">=</span> <span class="p">(</span><span class="n">Yrecord</span> <span class="o">*</span> <span class="n">Yscale</span><span class="p">)</span> <span class="o">+</span> <span class="n">Yoffset</span>
+ <span class="n">Zcoordinate</span> <span class="o">=</span> <span class="p">(</span><span class="n">Zrecord</span> <span class="o">*</span> <span class="n">Zscale</span><span class="p">)</span> <span class="o">+</span> <span class="n">Zoffset</span>
+</code></pre></div>
+
+
+<p>C–class(所属类)
+ F一flight(航线号)
+ T一time(GPS时间)
+ I一intensity(回波强度)
+ R一return(第几次回波)
+ N一number of return(回波次数)
+ A一scan angle(扫描角)
+ RGB一red green blue(RGB颜色值)</p>
+<h3>三维信息文件格式</h3>
+<h5>点云</h5>
+<p>1.PNTS格式：默认生成以在Terra显示（LOD点云格式，适合在Cesium中显示）
+2.LAS格式：ASPRS LASer，三维点云格式，V1.2版本格式
+3.S3MB格式：超图LOD点云格式
+4.PLY格式：非LOD点云格式
+5.PCD格式：非LOD点云格式</p>
+<h5>模型</h5>
+<p>1.B3DM格式：默认生成以在Terra显示（LOD模型格式，适合在Cesium中显示）
+2.OSGB格式：LOD模型格式
+3.PLY格式：非LOD模型格式
+4.OBJ格式：非LOD模型格式
+5.S3MB格式：超图LOD模型格式
+6.I3S格式： LOD模型格式</p>
+<p><em>LOD（Level Of Detail）,多层次细节模型，以金字塔形式存储模型，会将模型用若干很小的瓦片进行存储。一般情况下，LOD形式的模型浏览起来会更快。</em></p>
+<p>选择点云密度：</p>
+<ul>
+<li>高为原始采样率，使用 100% 的点云进行处理，处理成果质量最高，耗时最长。中点云密度使用
+    25% 的点云进行处理，处理成果质量中等，耗时中等。低点云密度使用6.25% 的点云进行处理，处理成果点云稀
+    疏，耗时最短。</li>
+</ul>
+<p>点云处理软件现状</p>
+<p>在三维点云数据处理软件方面，商业化的软件主要有TerraSolid公司的TerraSolid、Trimble公司的RealWorks、Leica公司的Cyclone、Bentley公司的Pointools、Orbit GT公司的Orbit Mobile  Mapping等，以及国内科研院所和公司开发的一些工具软件。其重点主要集中在点云数据的管理、面向DEM生产的滤波[<a href="http://html.rhhz.net/CHXB/html/2017-10-1509.htm#b3">3</a>-<a href="http://html.rhhz.net/CHXB/html/2017-10-1509.htm#b4">4</a>]、三维建筑物提取及重建[<a href="http://html.rhhz.net/CHXB/html/2017-10-1509.htm#b5">5</a>-<a href="http://html.rhhz.net/CHXB/html/2017-10-1509.htm#b6">6</a>]、森林垂直结构参数提取[<a href="http://html.rhhz.net/CHXB/html/2017-10-1509.htm#b7">7</a>]等方面。相对三维激光扫描硬件设备的快速发展而言，三维点云的智能化处理发展较为落后，点云处理的智能化水平、软件界面友好性、专业化应用数据接口等方面还有待提高。</p></div>
     <footer>
 <p class="meta">
   <span class="byline author vcard">
@@ -112,11 +173,11 @@
         leelongcrazy
     </span>
   </span>
-<time datetime="2018-02-28T17:00:00+08:00" pubdate>Wed 28 February 2018</time>  <span class="categories">
-    <a class='category' href='/category/it.html'>IT</a>
+<time datetime="2023-08-16T17:00:00+08:00" pubdate>Wed 16 August 2023</time>  <span class="categories">
+    <a class='category' href='/category/tech.html'>TECH</a>
   </span>
   <span class="categories">
-    <a class="category" href="/tag/vim.html">Vim</a>,    <a class="category" href="/tag/code.html">Code</a>  </span>
+    <a class="category" href="/tag/tech.html">Tech</a>  </span>
 </p><div class="sharing">
 </div>    </footer>
   </article>
