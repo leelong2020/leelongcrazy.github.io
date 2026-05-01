@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ROS2_Commands &mdash; LoongLee's blog</title>
+  <meta name="author" content="LoongLee">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="/favicon.png" rel="icon">
+
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">LoongLee's blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li >
+        <a href="/category/aiml.html">Ai/ml</a>
+      </li>
+      <li >
+        <a href="/category/article.html">Article</a>
+      </li>
+      <li >
+        <a href="/category/bian-cheng-yu-yan.html">编程语言</a>
+      </li>
+      <li >
+        <a href="/category/books.html">Books</a>
+      </li>
+      <li >
+        <a href="/category/ce-shi.html">测试</a>
+      </li>
+      <li >
+        <a href="/category/cpp.html">Cpp</a>
+      </li>
+      <li >
+        <a href="/category/import.html">Import</a>
+      </li>
+      <li >
+        <a href="/category/it.html">It</a>
+      </li>
+      <li >
+        <a href="/category/jia-gou-yu-she-ji.html">架构与设计</a>
+      </li>
+      <li >
+        <a href="/category/kai-fa-gong-ju.html">开发工具</a>
+      </li>
+      <li >
+        <a href="/category/movie.html">Movie</a>
+      </li>
+      <li >
+        <a href="/category/qi-ta-gong-ju.html">其他工具</a>
+      </li>
+      <li >
+        <a href="/category/qian-ru-shi-android.html">嵌入式/android</a>
+      </li>
+      <li >
+        <a href="/category/rong-qi-bian-pai.html">容器编排</a>
+      </li>
+      <li class="active">
+        <a href="/category/ros2.html">Ros2</a>
+      </li>
+      <li >
+        <a href="/category/shu-ju-ku.html">数据库</a>
+      </li>
+      <li >
+        <a href="/category/software.html">Software</a>
+      </li>
+      <li >
+        <a href="/category/tech.html">Tech</a>
+      </li>
+      <li >
+        <a href="/category/wang-luo-yu-an-quan.html">网络与安全</a>
+      </li>
+      <li >
+        <a href="/category/web.html">Web</a>
+      </li>
+      <li >
+        <a href="/category/webkuang-jia.html">Web框架</a>
+      </li>
+      <li >
+        <a href="/category/wslyu-kai-fa-huan-jing.html">Wsl与开发环境</a>
+      </li>
+      <li >
+        <a href="/category/xing-neng-ce-shi-yu-jian-kong.html">性能测试与监控</a>
+      </li>
+      <li >
+        <a href="/category/yun-wei-linux.html">运维/linux</a>
+      </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">ROS2_Commands</h1>
+    <p class="meta">
+<time datetime="2026-04-30T12:00:00+08:00" pubdate>Thu 30 April 2026</time>    </p>
+</header>
+
+  <div class="entry-content"><h1>ROS2 常用命令</h1>
+<blockquote>
+<p>来源：<code>sources/ROS2命令使用.md</code></p>
+</blockquote>
+<h2>ROS2 Foxy 安装依赖</h2>
+<h3>Qt5 环境</h3>
+<div class="highlight"><pre><span></span><code>sudo apt install qtbase5-dev qtbase5-private-dev qtbase5-dev-tools <span class="se">\</span>
+  libqt5svg5 libqt5qml5 qtdeclarative5-dev
+</code></pre></div>
+
+
+<h3>SDL 库</h3>
+<div class="highlight"><pre><span></span><code>sudo apt-get install libsdl1.2-dev
+sudo apt install -y libsdl-image1.2 libsdl-image1.2-dev
+</code></pre></div>
+
+
+<hr>
+<h2>节点与话题管理</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 节点</span>
+ros2 node list                           <span class="c1"># 显示所有运行节点</span>
+ros2 node info &lt;node_name&gt;              <span class="c1"># 节点详细信息</span>
+
+<span class="c1"># 话题</span>
+ros2 topic list                          <span class="c1"># 列出所有话题</span>
+ros2 topic <span class="nb">echo</span> /topic_name              <span class="c1"># 查看话题数据</span>
+ros2 topic <span class="nb">echo</span> --full-length /topic     <span class="c1"># 展开长消息</span>
+ros2 topic pub &lt;topic&gt; &lt;type&gt; <span class="s1">&#39;&lt;args&gt;&#39;</span>   <span class="c1"># 发布数据到话题</span>
+ros2 topic hz &lt;topic&gt;                    <span class="c1"># 报告发布速率</span>
+</code></pre></div>
+
+
+<h2>服务管理</h2>
+<div class="highlight"><pre><span></span><code>ros2 service list                        <span class="c1"># 列出所有服务</span>
+ros2 service <span class="nb">type</span> &lt;service_name&gt;        <span class="c1"># 获取服务类型</span>
+ros2 service find &lt;type_name&gt;           <span class="c1"># 查找指定类型的服务</span>
+</code></pre></div>
+
+
+<hr>
+<h2>包管理</h2>
+<h3>创建新包</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Python 包</span>
+ros2 pkg create --build-type ament_python pkg_name <span class="se">\</span>
+  --dependencies rclpy std_msgs <span class="se">\</span>
+  --license Apache-2.0 <span class="se">\</span>
+  --maintainer-name <span class="s2">&quot;lxj&quot;</span> <span class="se">\</span>
+  --maintainer-email <span class="s2">&quot;lxj@forsace.com&quot;</span>
+
+<span class="c1"># C++ 包</span>
+ros2 pkg create --build-type ament_cmake pkg_name <span class="se">\</span>
+  --dependencies rclcpp std_msgs <span class="se">\</span>
+  --license Apache-2.0 <span class="se">\</span>
+  --maintainer-name <span class="s2">&quot;lxj&quot;</span> <span class="se">\</span>
+  --maintainer-email <span class="s2">&quot;lxj@forsace.com&quot;</span>
+</code></pre></div>
+
+
+<h3>编译</h3>
+<div class="highlight"><pre><span></span><code>colcon build --symlink-install                              <span class="c1"># 开发模式编译</span>
+colcon build --packages-select pkg_1 pkg_2 pkg_3           <span class="c1"># 指定包编译</span>
+colcon build --symlink-install --packages-up-to pkg_name   <span class="c1"># 自动编译依赖</span>
+
+<span class="c1"># 发布模式编译</span>
+colcon build --event-handlers console_direct+ <span class="se">\</span>
+  --cmake-args -DCMAKE_BUILD_TYPE<span class="o">=</span>Release
+
+<span class="c1"># 重新构建（并行编译）</span>
+colcon build <span class="se">\</span>
+  --cmake-args -DCMAKE_BUILD_TYPE<span class="o">=</span>Release <span class="se">\</span>
+  --parallel-workers <span class="k">$(</span>nproc<span class="k">)</span> <span class="se">\</span>
+  --packages-up-to pkg_name <span class="se">\</span>
+  --merge-install
+</code></pre></div>
+
+
+<h3>打包</h3>
+<div class="highlight"><pre><span></span><code>tar -czf <span class="s2">&quot;</span><span class="si">${</span><span class="nv">package_name</span><span class="si">}</span><span class="s2">_v</span><span class="si">${</span><span class="nv">package_version</span><span class="si">}</span><span class="s2">_release_</span><span class="k">$(</span>date +%Y%m%d_%H%M%S<span class="k">)</span><span class="s2">.tar.gz&quot;</span> <span class="se">\</span>
+    --exclude<span class="o">=</span><span class="s1">&#39;**/__pycache__&#39;</span> <span class="se">\</span>
+    --exclude<span class="o">=</span><span class="s1">&#39;**/*.pyc&#39;</span> <span class="se">\</span>
+    install/
+</code></pre></div>
+
+
+<h3>列出包依赖</h3>
+<div class="highlight"><pre><span></span><code>colcon list --packages-up-to pkg_name
+</code></pre></div>
+
+
+<h3>运行</h3>
+<div class="highlight"><pre><span></span><code>ros2 run &lt;package_name&gt; &lt;executable_name&gt;    <span class="c1"># 运行可执行文件</span>
+ros2 launch pkg_name node_name                <span class="c1"># launch 方式</span>
+</code></pre></div>
+
+
+<hr>
+<h2>环境管理</h2>
+<div class="highlight"><pre><span></span><code>printenv ROS_DISTRO           <span class="c1"># 查看 ROS 版本</span>
+
+<span class="c1"># 完全清理环境变量</span>
+<span class="nb">unset</span> ROS_DISTRO
+<span class="nb">unset</span> PYTHONPATH
+<span class="nb">unset</span> LD_LIBRARY_PATH
+
+<span class="c1"># 重新 source</span>
+<span class="nb">source</span> /opt/ros/foxy/setup.bash
+<span class="nb">source</span> ~/your_workspace/install/setup.bash
+
+<span class="c1"># 验证</span>
+python3 -c <span class="s2">&quot;import ros2pkg.api&quot;</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&quot;成功！&quot;</span>
+</code></pre></div>
+
+
+<hr>
+<h2>依赖安装</h2>
+<div class="highlight"><pre><span></span><code>rosdep install --from-paths src --ignore-src -r -y
+</code></pre></div>
+
+
+<h2>错误修复</h2>
+<div class="highlight"><pre><span></span><code>sudo dpkg -i --force-overwrite /var/cache/apt/archives/python3-catkin-pkg-modules_1.0.0-1_all.deb
+sudo apt --fix-broken install
+</code></pre></div>
+
+
+<h2>其他工具</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 查看图片主题</span>
+ros2 run rqt_image_view rqt_image_view
+
+<span class="c1"># 清理 apt 缓存</span>
+sudo apt-get clean <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+</code></pre></div>
+
+
+<hr>
+<h2>相关页面</h2>
+<ul>
+<li><a href="./ROS2_Introduction.md">ROS2_Introduction</a> - ROS2 简介</li>
+<li><a href="./ROS2_Topic_Forwarding.md">ROS2_Topic_Forwarding</a> - ROS2 Topic 数据转发</li>
+</ul>
+<hr>
+<p><em>最后更新: 2026-04-30</em></p></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        opencode
+    </span>
+  </span>
+<time datetime="2026-04-30T12:00:00+08:00" pubdate>Thu 30 April 2026</time>  <span class="categories">
+    <a class='category' href='/category/ros2.html'>ROS2</a>
+  </span>
+  <span class="categories">
+    <a class="category" href="/tag/ros2.html">ROS2</a>,    <a class="category" href="/tag/man.html">man</a>  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/ADB_Use.html">ADB_Use</a>
+      </li>
+      <li class="post">
+          <a href="/AI_Vibe_Coding.html">AI_Vibe_Coding</a>
+      </li>
+      <li class="post">
+          <a href="/Build_Python_From_Source.html">Build_Python_From_Source</a>
+      </li>
+      <li class="post">
+          <a href="/Dabai_Camera_Use.html">Dabai_Camera_Use</a>
+      </li>
+      <li class="post">
+          <a href="/Desktop_Dev_Env_Install.html">Desktop_Dev_Env_Install</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/aiml.html">AI/ML</a></li>
+        <li><a href="/category/article.html">Article</a></li>
+        <li><a href="/category/bian-cheng-yu-yan.html">编程语言</a></li>
+        <li><a href="/category/books.html">Books</a></li>
+        <li><a href="/category/ce-shi.html">测试</a></li>
+        <li><a href="/category/cpp.html">CPP</a></li>
+        <li><a href="/category/import.html">Import</a></li>
+        <li><a href="/category/it.html">IT</a></li>
+        <li><a href="/category/jia-gou-yu-she-ji.html">架构与设计</a></li>
+        <li><a href="/category/kai-fa-gong-ju.html">开发工具</a></li>
+        <li><a href="/category/movie.html">Movie</a></li>
+        <li><a href="/category/qi-ta-gong-ju.html">其他工具</a></li>
+        <li><a href="/category/qian-ru-shi-android.html">嵌入式/Android</a></li>
+        <li><a href="/category/rong-qi-bian-pai.html">容器编排</a></li>
+        <li><a href="/category/ros2.html">ROS2</a></li>
+        <li><a href="/category/shu-ju-ku.html">数据库</a></li>
+        <li><a href="/category/software.html">Software</a></li>
+        <li><a href="/category/tech.html">TECH</a></li>
+        <li><a href="/category/wang-luo-yu-an-quan.html">网络与安全</a></li>
+        <li><a href="/category/web.html">Web</a></li>
+        <li><a href="/category/webkuang-jia.html">Web框架</a></li>
+        <li><a href="/category/wslyu-kai-fa-huan-jing.html">WSL与开发环境</a></li>
+        <li><a href="/category/xing-neng-ce-shi-yu-jian-kong.html">性能测试与监控</a></li>
+        <li><a href="/category/yun-wei-linux.html">运维/Linux</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/tag/gong-ju.html">工具</a>,    <a href="/tag/adb.html">ADB</a>,    <a href="/tag/ai.html">AI</a>,    <a href="/tag/yu-yan.html">语言</a>,    <a href="/tag/python.html">Python</a>,    <a href="/tag/ros2.html">ROS2</a>,    <a href="/tag/web.html">Web</a>,    <a href="/tag/django.html">Django</a>,    <a href="/tag/github.html">GitHub</a>,    <a href="/tag/man.html">man</a>,    <a href="/tag/cli.html">CLI</a>,    <a href="/tag/hf.html">HF</a>,    <a href="/tag/linux.html">Linux</a>,    <a href="/tag/mqtt.html">MQTT</a>,    <a href="/tag/an-quan.html">安全</a>,    <a href="/tag/config.html">Config</a>,    <a href="/tag/nginx.html">Nginx</a>,    <a href="/tag/openclaw.html">OpenClaw</a>,    <a href="/tag/pm2.html">PM2</a>,    <a href="/tag/qian-ru-shi.html">嵌入式</a>,    <a href="/tag/rk.html">RK</a>,    <a href="/tag/fail2ban.html">Fail2Ban</a>,    <a href="/tag/ssh.html">SSH</a>,    <a href="/tag/ag.html">ag</a>,    <a href="/tag/speckit.html">SpecKit</a>,    <a href="/tag/systemd.html">Systemd</a>,    <a href="/tag/conda.html">Conda</a>,    <a href="/tag/djangoninja.html">DjangoNinja</a>,    <a href="/tag/docker.html">Docker</a>,    <a href="/tag/http.html">HTTP</a>,    <a href="/tag/jia-gou.html">架构</a>,    <a href="/tag/firewalld.html">Firewalld</a>,    <a href="/tag/rong-qi.html">容器</a>,    <a href="/tag/gitea.html">Gitea</a>,    <a href="/tag/git.html">Git</a>,    <a href="/tag/go.html">Go</a>,    <a href="/tag/gunicorn.html">Gunicorn</a>,    <a href="/tag/headscale.html">Headscale</a>,    <a href="/tag/huggingface.html">HuggingFace</a>,    <a href="/tag/java.html">Java</a>,    <a href="/tag/k8s.html">K8s</a>,    <a href="/tag/mvt.html">MVT</a>,    <a href="/tag/memmachine.html">MemMachine</a>,    <a href="/tag/db.html">DB</a>,    <a href="/tag/mysql.html">MySQL</a>,    <a href="/tag/nexus.html">Nexus</a>,    <a href="/tag/nmap.html">Nmap</a>,    <a href="/tag/jian-kong.html">监控</a>,    <a href="/tag/gpu.html">GPU</a>,    <a href="/tag/poetry.html">Poetry</a>,    <a href="/tag/ssl.html">SSL</a>,    <a href="/tag/tls.html">TLS</a>,    <a href="/tag/shell.html">Shell</a>,    <a href="/tag/tmux.html">Tmux</a>,    <a href="/tag/uv.html">UV</a>,    <a href="/tag/ubuntu.html">Ubuntu</a>,    <a href="/tag/vim.html">Vim</a>,    <a href="/tag/vue.html">Vue</a>,    <a href="/tag/wsl.html">WSL</a>,    <a href="/tag/whisper.html">Whisper</a>,    <a href="/tag/zsh.html">Zsh</a>,    <a href="/tag/iperf3.html">iperf3</a>,    <a href="/tag/pyenv.html">pyenv</a>,    <a href="/tag/ce-shi.html">测试</a>,    <a href="/tag/pytest.html">pytest</a>,    <a href="/tag/tools.html">Tools</a>,    <a href="/tag/robotics.html">Robotics</a>,    <a href="/tag/it.html">It</a>,    <a href="/tag/tech.html">Tech</a>,    <a href="/tag/code.html">Code</a>,    <a href="/tag/osg.html">Osg</a>,    <a href="/tag/program.html">Program</a>,    <a href="/tag/debug.html">Debug</a>,    <a href="/tag/mac.html">mac</a>,    <a href="/tag/programe.html">Programe</a>,    <a href="/tag/qt.html">Qt</a>,    <a href="/tag/c.html">C++</a>,    <a href="/tag/edu.html">Edu</a>,    <a href="/tag/websec.html">WebSec</a>,    <a href="/tag/pwn.html">PWN</a>,    <a href="/tag/mfc.html">MFC</a>,    <a href="/tag/bash.html">Bash</a>,    <a href="/tag/os.html">os</a>,    <a href="/tag/iot.html">Iot</a>,    <a href="/tag/movie.html">Movie</a>,    <a href="/tag/article.html">Article</a>  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="https://github.com/leelong2020" target="_blank">Github</a></li>
+            <li><a href="https://x.com/leelong2020" target="_blank">X</a></li>
+            <li><a href="https://linkedin.com/in/loonglee2020" target="_blank">Linkedin</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="https://loonglee.site" target="_blank">LoongLee site</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2017&ndash;2026  LoongLee &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+</body>
+</html>

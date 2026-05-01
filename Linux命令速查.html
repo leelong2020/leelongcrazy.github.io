@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux命令速查 &mdash; LoongLee's blog</title>
+  <meta name="author" content="LoongLee">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="/favicon.png" rel="icon">
+
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">LoongLee's blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li >
+        <a href="/category/aiml.html">Ai/ml</a>
+      </li>
+      <li >
+        <a href="/category/article.html">Article</a>
+      </li>
+      <li >
+        <a href="/category/bian-cheng-yu-yan.html">编程语言</a>
+      </li>
+      <li >
+        <a href="/category/books.html">Books</a>
+      </li>
+      <li >
+        <a href="/category/ce-shi.html">测试</a>
+      </li>
+      <li >
+        <a href="/category/cpp.html">Cpp</a>
+      </li>
+      <li >
+        <a href="/category/import.html">Import</a>
+      </li>
+      <li >
+        <a href="/category/it.html">It</a>
+      </li>
+      <li >
+        <a href="/category/jia-gou-yu-she-ji.html">架构与设计</a>
+      </li>
+      <li >
+        <a href="/category/kai-fa-gong-ju.html">开发工具</a>
+      </li>
+      <li >
+        <a href="/category/movie.html">Movie</a>
+      </li>
+      <li >
+        <a href="/category/qi-ta-gong-ju.html">其他工具</a>
+      </li>
+      <li >
+        <a href="/category/qian-ru-shi-android.html">嵌入式/android</a>
+      </li>
+      <li >
+        <a href="/category/rong-qi-bian-pai.html">容器编排</a>
+      </li>
+      <li >
+        <a href="/category/ros2.html">Ros2</a>
+      </li>
+      <li >
+        <a href="/category/shu-ju-ku.html">数据库</a>
+      </li>
+      <li >
+        <a href="/category/software.html">Software</a>
+      </li>
+      <li >
+        <a href="/category/tech.html">Tech</a>
+      </li>
+      <li >
+        <a href="/category/wang-luo-yu-an-quan.html">网络与安全</a>
+      </li>
+      <li >
+        <a href="/category/web.html">Web</a>
+      </li>
+      <li >
+        <a href="/category/webkuang-jia.html">Web框架</a>
+      </li>
+      <li >
+        <a href="/category/wslyu-kai-fa-huan-jing.html">Wsl与开发环境</a>
+      </li>
+      <li >
+        <a href="/category/xing-neng-ce-shi-yu-jian-kong.html">性能测试与监控</a>
+      </li>
+      <li class="active">
+        <a href="/category/yun-wei-linux.html">运维/linux</a>
+      </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">Linux命令速查</h1>
+    <p class="meta">
+<time datetime="2026-04-07T12:00:00+08:00" pubdate>Tue 07 April 2026</time>    </p>
+</header>
+
+  <div class="entry-content"><h1>Linux命令速查</h1>
+<h2>来源</h2>
+<p>原始文档: <code>linux_cmd.md</code></p>
+<h2>核心内容</h2>
+<p>Linux 系统管理常用命令和操作速查手册。</p>
+<h3>历史记录控制</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">unset</span> HISTFILE  <span class="c1"># 临时不记录命令历史</span>
+</code></pre></div>
+
+
+<h3>文件系统操作</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 使用 debootstrap 创建文件系统</span>
+sudo debootstrap --arch<span class="o">=</span>arm64 focal ./ubuntu-20.04-arm64 https://ports.ubuntu.com/
+
+<span class="c1"># 远程同步文件系统</span>
+rsync -avz --numeric-ids --exclude<span class="o">=</span>/proc --exclude<span class="o">=</span>/sys --exclude<span class="o">=</span>/dev root@device:/ ./sysroot
+
+<span class="c1"># 清理缓存</span>
+apt-get clean <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+</code></pre></div>
+
+
+<h3>chroot 操作</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 挂载必要的文件系统</span>
+sudo mount --bind /dev /mnt/sysroot/dev
+sudo mount --bind /proc /mnt/sysroot/proc
+sudo mount --bind /sys /mnt/sysroot/sys
+
+<span class="c1"># 进入 chroot</span>
+sudo chroot /mnt/sysroot
+
+<span class="c1"># 退出并卸载</span>
+<span class="nb">exit</span>
+sudo umount /mnt/sysroot/dev
+sudo umount /mnt/sysroot/proc
+sudo umount /mnt/sysroot/sys
+</code></pre></div>
+
+
+<h3>编辑器配置</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 设置默认编辑器 (系统级)</span>
+sudo vim /etc/environment
+<span class="c1"># 添加: EDITOR=vim, VISUAL=vim</span>
+
+<span class="c1"># 设置默认编辑器 (用户级)</span>
+<span class="nb">echo</span> <span class="s1">&#39;export EDITOR=vim&#39;</span> &gt;&gt; ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+</code></pre></div>
+
+
+<h3>别名设置</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 修改 ls 时间格式 (bash)</span>
+<span class="nb">echo</span> <span class="s1">&#39;alias ls=&quot;ls --time-style=\&quot;+%Y-%m-%d %H:%M:%S\&quot;&quot;&#39;</span> &gt;&gt; ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+
+<span class="c1"># 修改 ls 时间格式 (zsh)</span>
+<span class="nb">echo</span> <span class="s1">&#39;alias ls=&quot;ls --time-style=\&quot;+%Y-%m-%d %H:%M:%S\&quot;&quot;&#39;</span> &gt;&gt; ~/.zshrc
+<span class="nb">source</span> ~/.zshrc
+</code></pre></div>
+
+
+<h3>htop 使用</h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F6</td>
+<td>选择排序方式</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>树状模式</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>设置</td>
+</tr>
+<tr>
+<td>t</td>
+<td>切换 CPU 柱状图</td>
+</tr>
+<tr>
+<td>k</td>
+<td>kill 进程</td>
+</tr>
+<tr>
+<td>u</td>
+<td>按用户过滤</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CPU排序</strong>: CPU%, TIME+, STATE<br>
+<strong>内存排序</strong>: MEM%, RES, VIRT, SHR, SWAP</p>
+<h3>代理设置</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 临时代理 (git)</span>
+git -c http.proxy<span class="o">=</span>http://127.0.0.1:8118 clone &lt;url&gt;
+
+<span class="c1"># SOCKS5 代理</span>
+<span class="nb">export</span> <span class="nv">ALL_PROXY</span><span class="o">=</span><span class="s2">&quot;socks5h://127.0.0.1:6666&quot;</span>
+<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$ALL_PROXY</span><span class="s2">&quot;</span>
+<span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$ALL_PROXY</span><span class="s2">&quot;</span>
+
+<span class="c1"># 取消代理</span>
+<span class="nb">unset</span> ALL_PROXY all_proxy http_proxy https_proxy
+</code></pre></div>
+
+
+<h3>磁盘使用</h3>
+<div class="highlight"><pre><span></span><code>du -sh                    <span class="c1"># 当前目录总大小</span>
+du -h --max-depth<span class="o">=</span><span class="m">1</span>       <span class="c1"># 子目录明细</span>
+du -sh ./dir              <span class="c1"># 指定目录大小</span>
+</code></pre></div>
+
+
+<h3>公网 IP</h3>
+<div class="highlight"><pre><span></span><code>curl -s https://ifconfig.me      <span class="c1"># IPv6</span>
+curl -4 -s https://ifconfig.me   <span class="c1"># IPv4</span>
+</code></pre></div>
+
+
+<h3>压缩归档</h3>
+<div class="highlight"><pre><span></span><code>tar -czvf archive.tar.gz folder/  <span class="c1"># 压缩</span>
+tar -xzvf archive.tar.gz          <span class="c1"># 解压</span>
+</code></pre></div>
+
+
+<h3>Logrotate 配置</h3>
+<div class="highlight"><pre><span></span><code>sudo vim /etc/logrotate.d/frps
+</code></pre></div>
+
+
+<p>配置内容:</p>
+<div class="highlight"><pre><span></span><code><span class="err">/var/log/frps.log {</span>
+<span class="err">    daily</span>
+<span class="err">    rotate 14</span>
+<span class="err">    compress</span>
+<span class="err">    delaycompress</span>
+<span class="err">    missingok</span>
+<span class="err">    notifempty</span>
+<span class="err">    create 640 user group</span>
+<span class="err">    postrotate</span>
+<span class="err">        systemctl kill -s HUP frps 2&gt;/dev/null || true</span>
+<span class="err">    endscript</span>
+<span class="err">}</span>
+</code></pre></div>
+
+
+<p>测试配置:</p>
+<div class="highlight"><pre><span></span><code>sudo logrotate -d /etc/logrotate.d/frps  <span class="c1"># 调试</span>
+sudo logrotate -f /etc/logrotate.d/frps  <span class="c1"># 强制轮转</span>
+</code></pre></div>
+
+
+<h2>关键要点</h2>
+<ul>
+<li>使用 <code>chroot</code> 需要在退出后正确卸载挂载点</li>
+<li><code>htop</code> 提供交互式进程管理,支持多种排序方式</li>
+<li><code>logrotate</code> 是日志管理的核心工具,需定期测试配置</li>
+<li>代理环境变量区分大小写,注意 <code>ALL_PROXY</code> 和 <code>all_proxy</code></li>
+</ul>
+<h2>相关实体</h2>
+<ul>
+<li>Linux - Linux 操作系统</li>
+<li>Shell - Shell 脚本</li>
+<li>htop - 交互式进程查看器</li>
+<li>logrotate - 日志轮转工具</li>
+</ul></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        opencode
+    </span>
+  </span>
+<time datetime="2026-04-07T12:00:00+08:00" pubdate>Tue 07 April 2026</time>  <span class="categories">
+    <a class='category' href='/category/yun-wei-linux.html'>运维/Linux</a>
+  </span>
+  <span class="categories">
+    <a class="category" href="/tag/linux.html">Linux</a>  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/ADB_Use.html">ADB_Use</a>
+      </li>
+      <li class="post">
+          <a href="/AI_Vibe_Coding.html">AI_Vibe_Coding</a>
+      </li>
+      <li class="post">
+          <a href="/Build_Python_From_Source.html">Build_Python_From_Source</a>
+      </li>
+      <li class="post">
+          <a href="/Dabai_Camera_Use.html">Dabai_Camera_Use</a>
+      </li>
+      <li class="post">
+          <a href="/Desktop_Dev_Env_Install.html">Desktop_Dev_Env_Install</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/aiml.html">AI/ML</a></li>
+        <li><a href="/category/article.html">Article</a></li>
+        <li><a href="/category/bian-cheng-yu-yan.html">编程语言</a></li>
+        <li><a href="/category/books.html">Books</a></li>
+        <li><a href="/category/ce-shi.html">测试</a></li>
+        <li><a href="/category/cpp.html">CPP</a></li>
+        <li><a href="/category/import.html">Import</a></li>
+        <li><a href="/category/it.html">IT</a></li>
+        <li><a href="/category/jia-gou-yu-she-ji.html">架构与设计</a></li>
+        <li><a href="/category/kai-fa-gong-ju.html">开发工具</a></li>
+        <li><a href="/category/movie.html">Movie</a></li>
+        <li><a href="/category/qi-ta-gong-ju.html">其他工具</a></li>
+        <li><a href="/category/qian-ru-shi-android.html">嵌入式/Android</a></li>
+        <li><a href="/category/rong-qi-bian-pai.html">容器编排</a></li>
+        <li><a href="/category/ros2.html">ROS2</a></li>
+        <li><a href="/category/shu-ju-ku.html">数据库</a></li>
+        <li><a href="/category/software.html">Software</a></li>
+        <li><a href="/category/tech.html">TECH</a></li>
+        <li><a href="/category/wang-luo-yu-an-quan.html">网络与安全</a></li>
+        <li><a href="/category/web.html">Web</a></li>
+        <li><a href="/category/webkuang-jia.html">Web框架</a></li>
+        <li><a href="/category/wslyu-kai-fa-huan-jing.html">WSL与开发环境</a></li>
+        <li><a href="/category/xing-neng-ce-shi-yu-jian-kong.html">性能测试与监控</a></li>
+        <li><a href="/category/yun-wei-linux.html">运维/Linux</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/tag/gong-ju.html">工具</a>,    <a href="/tag/adb.html">ADB</a>,    <a href="/tag/ai.html">AI</a>,    <a href="/tag/yu-yan.html">语言</a>,    <a href="/tag/python.html">Python</a>,    <a href="/tag/ros2.html">ROS2</a>,    <a href="/tag/web.html">Web</a>,    <a href="/tag/django.html">Django</a>,    <a href="/tag/github.html">GitHub</a>,    <a href="/tag/man.html">man</a>,    <a href="/tag/cli.html">CLI</a>,    <a href="/tag/hf.html">HF</a>,    <a href="/tag/linux.html">Linux</a>,    <a href="/tag/mqtt.html">MQTT</a>,    <a href="/tag/an-quan.html">安全</a>,    <a href="/tag/config.html">Config</a>,    <a href="/tag/nginx.html">Nginx</a>,    <a href="/tag/openclaw.html">OpenClaw</a>,    <a href="/tag/pm2.html">PM2</a>,    <a href="/tag/qian-ru-shi.html">嵌入式</a>,    <a href="/tag/rk.html">RK</a>,    <a href="/tag/fail2ban.html">Fail2Ban</a>,    <a href="/tag/ssh.html">SSH</a>,    <a href="/tag/ag.html">ag</a>,    <a href="/tag/speckit.html">SpecKit</a>,    <a href="/tag/systemd.html">Systemd</a>,    <a href="/tag/conda.html">Conda</a>,    <a href="/tag/djangoninja.html">DjangoNinja</a>,    <a href="/tag/docker.html">Docker</a>,    <a href="/tag/http.html">HTTP</a>,    <a href="/tag/jia-gou.html">架构</a>,    <a href="/tag/firewalld.html">Firewalld</a>,    <a href="/tag/rong-qi.html">容器</a>,    <a href="/tag/gitea.html">Gitea</a>,    <a href="/tag/git.html">Git</a>,    <a href="/tag/go.html">Go</a>,    <a href="/tag/gunicorn.html">Gunicorn</a>,    <a href="/tag/headscale.html">Headscale</a>,    <a href="/tag/huggingface.html">HuggingFace</a>,    <a href="/tag/java.html">Java</a>,    <a href="/tag/k8s.html">K8s</a>,    <a href="/tag/mvt.html">MVT</a>,    <a href="/tag/memmachine.html">MemMachine</a>,    <a href="/tag/db.html">DB</a>,    <a href="/tag/mysql.html">MySQL</a>,    <a href="/tag/nexus.html">Nexus</a>,    <a href="/tag/nmap.html">Nmap</a>,    <a href="/tag/jian-kong.html">监控</a>,    <a href="/tag/gpu.html">GPU</a>,    <a href="/tag/poetry.html">Poetry</a>,    <a href="/tag/ssl.html">SSL</a>,    <a href="/tag/tls.html">TLS</a>,    <a href="/tag/shell.html">Shell</a>,    <a href="/tag/tmux.html">Tmux</a>,    <a href="/tag/uv.html">UV</a>,    <a href="/tag/ubuntu.html">Ubuntu</a>,    <a href="/tag/vim.html">Vim</a>,    <a href="/tag/vue.html">Vue</a>,    <a href="/tag/wsl.html">WSL</a>,    <a href="/tag/whisper.html">Whisper</a>,    <a href="/tag/zsh.html">Zsh</a>,    <a href="/tag/iperf3.html">iperf3</a>,    <a href="/tag/pyenv.html">pyenv</a>,    <a href="/tag/ce-shi.html">测试</a>,    <a href="/tag/pytest.html">pytest</a>,    <a href="/tag/tools.html">Tools</a>,    <a href="/tag/robotics.html">Robotics</a>,    <a href="/tag/it.html">It</a>,    <a href="/tag/tech.html">Tech</a>,    <a href="/tag/code.html">Code</a>,    <a href="/tag/osg.html">Osg</a>,    <a href="/tag/program.html">Program</a>,    <a href="/tag/debug.html">Debug</a>,    <a href="/tag/mac.html">mac</a>,    <a href="/tag/programe.html">Programe</a>,    <a href="/tag/qt.html">Qt</a>,    <a href="/tag/c.html">C++</a>,    <a href="/tag/edu.html">Edu</a>,    <a href="/tag/websec.html">WebSec</a>,    <a href="/tag/pwn.html">PWN</a>,    <a href="/tag/mfc.html">MFC</a>,    <a href="/tag/bash.html">Bash</a>,    <a href="/tag/os.html">os</a>,    <a href="/tag/iot.html">Iot</a>,    <a href="/tag/movie.html">Movie</a>,    <a href="/tag/article.html">Article</a>  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="https://github.com/leelong2020" target="_blank">Github</a></li>
+            <li><a href="https://x.com/leelong2020" target="_blank">X</a></li>
+            <li><a href="https://linkedin.com/in/loonglee2020" target="_blank">Linkedin</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="https://loonglee.site" target="_blank">LoongLee site</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2017&ndash;2026  LoongLee &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+</body>
+</html>

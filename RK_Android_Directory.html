@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>RK_Android_Directory &mdash; LoongLee's blog</title>
+  <meta name="author" content="LoongLee">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="/favicon.png" rel="icon">
+
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">LoongLee's blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li >
+        <a href="/category/aiml.html">Ai/ml</a>
+      </li>
+      <li >
+        <a href="/category/article.html">Article</a>
+      </li>
+      <li >
+        <a href="/category/bian-cheng-yu-yan.html">编程语言</a>
+      </li>
+      <li >
+        <a href="/category/books.html">Books</a>
+      </li>
+      <li >
+        <a href="/category/ce-shi.html">测试</a>
+      </li>
+      <li >
+        <a href="/category/cpp.html">Cpp</a>
+      </li>
+      <li >
+        <a href="/category/import.html">Import</a>
+      </li>
+      <li >
+        <a href="/category/it.html">It</a>
+      </li>
+      <li >
+        <a href="/category/jia-gou-yu-she-ji.html">架构与设计</a>
+      </li>
+      <li >
+        <a href="/category/kai-fa-gong-ju.html">开发工具</a>
+      </li>
+      <li >
+        <a href="/category/movie.html">Movie</a>
+      </li>
+      <li >
+        <a href="/category/qi-ta-gong-ju.html">其他工具</a>
+      </li>
+      <li class="active">
+        <a href="/category/qian-ru-shi-android.html">嵌入式/android</a>
+      </li>
+      <li >
+        <a href="/category/rong-qi-bian-pai.html">容器编排</a>
+      </li>
+      <li >
+        <a href="/category/ros2.html">Ros2</a>
+      </li>
+      <li >
+        <a href="/category/shu-ju-ku.html">数据库</a>
+      </li>
+      <li >
+        <a href="/category/software.html">Software</a>
+      </li>
+      <li >
+        <a href="/category/tech.html">Tech</a>
+      </li>
+      <li >
+        <a href="/category/wang-luo-yu-an-quan.html">网络与安全</a>
+      </li>
+      <li >
+        <a href="/category/web.html">Web</a>
+      </li>
+      <li >
+        <a href="/category/webkuang-jia.html">Web框架</a>
+      </li>
+      <li >
+        <a href="/category/wslyu-kai-fa-huan-jing.html">Wsl与开发环境</a>
+      </li>
+      <li >
+        <a href="/category/xing-neng-ce-shi-yu-jian-kong.html">性能测试与监控</a>
+      </li>
+      <li >
+        <a href="/category/yun-wei-linux.html">运维/linux</a>
+      </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">RK_Android_Directory</h1>
+    <p class="meta">
+<time datetime="2026-04-30T12:00:00+08:00" pubdate>Thu 30 April 2026</time>    </p>
+</header>
+
+  <div class="entry-content"><h1>RK Android 目录结构</h1>
+<blockquote>
+<p>来源：<code>sources/rk_android目录.md</code></p>
+</blockquote>
+<h2>概述</h2>
+<p>这是 Android (RK3588 平台) 的根文件系统，基于 Linux 但经过深度定制。</p>
+<hr>
+<h2>核心系统目录</h2>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>system</code></td>
+<td>Android 核心系统分区，存放框架、库、系统应用</td>
+</tr>
+<tr>
+<td><code>system_ext</code></td>
+<td>system 的扩展分区，OEM 额外的系统组件</td>
+</tr>
+<tr>
+<td><code>vendor</code></td>
+<td>芯片厂商（瑞芯微）专属驱动、HAL、二进制</td>
+</tr>
+<tr>
+<td><code>odm</code></td>
+<td>设备制造商定制层</td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td>产品层定制内容，运营商/厂商预装应用</td>
+</tr>
+<tr>
+<td><code>apex</code></td>
+<td>Android APEX 模块，可独立更新的"小系统包"</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>动态链接库模块（dlkm）</h2>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>system_dlkm</code></td>
+<td>系统级动态内核模块</td>
+</tr>
+<tr>
+<td><code>vendor_dlkm</code></td>
+<td>vendor 专属动态内核模块（如 RK3588 GPU/NPU 驱动）</td>
+</tr>
+<tr>
+<td><code>odm_dlkm</code></td>
+<td>ODM 层的动态内核模块</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>dlkm = Dynamic Loadable Kernel Module，Android 12+ 引入，模块化内核设计</p>
+</blockquote>
+<hr>
+<h2>数据目录</h2>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data</code></td>
+<td>用户数据、应用数据（<code>/data/data/包名</code>）</td>
+</tr>
+<tr>
+<td><code>data_mirror</code></td>
+<td>data 分区的镜像挂载点，多用户隔离用</td>
+</tr>
+<tr>
+<td><code>cache</code></td>
+<td>系统缓存、OTA 升级包临时存放</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td>加密元数据分区，存储 FBE 密钥信息</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Linux 标准目录</h2>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dev</code></td>
+<td>设备文件</td>
+</tr>
+<tr>
+<td><code>proc</code></td>
+<td>内核虚拟文件系统，进程/系统信息</td>
+</tr>
+<tr>
+<td><code>sys</code></td>
+<td>sysfs，硬件设备树、内核参数</td>
+</tr>
+<tr>
+<td><code>etc</code></td>
+<td>配置文件（软链接到 <code>/system/etc</code>）</td>
+</tr>
+<tr>
+<td><code>bin</code></td>
+<td>基础命令（软链接到 <code>/system/bin</code>）</td>
+</tr>
+<tr>
+<td><code>mnt</code></td>
+<td>挂载点根目录</td>
+</tr>
+<tr>
+<td><code>lost+found</code></td>
+<td>fsck 修复时找回的文件碎片</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>存储相关</h2>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sdcard</code></td>
+<td>内置/外置存储（软链接到 <code>/storage/self/primary</code>）</td>
+</tr>
+<tr>
+<td><code>storage</code></td>
+<td>所有存储设备挂载点</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Android 特有目录</h2>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>acct</code></td>
+<td>cgroup 控制组，进程资源统计和限制</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>debugfs 挂载点</td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td>configfs 挂载点，USB Gadget 配置</td>
+</tr>
+<tr>
+<td><code>linkerconfig</code></td>
+<td>动态链接器命名空间配置</td>
+</tr>
+<tr>
+<td><code>postinstall</code></td>
+<td>OTA 升级后新系统的临时挂载点</td>
+</tr>
+<tr>
+<td><code>oem</code></td>
+<td>老版本 OEM 定制目录</td>
+</tr>
+<tr>
+<td><code>debug_ramdisk</code></td>
+<td>调试用 ramdisk</td>
+</tr>
+<tr>
+<td><code>second_stage_resources</code></td>
+<td>init 二阶段启动资源</td>
+</tr>
+<tr>
+<td><code>bugreports</code></td>
+<td>bug report 文件</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>分区架构总览</h2>
+<div class="highlight"><pre><span></span><code><span class="err">硬件层        vendor_dlkm / odm_dlkm / system_dlkm</span>
+<span class="err">HAL层         vendor / odm</span>
+<span class="err">系统框架层     system / system_ext / apex</span>
+<span class="err">产品定制层     product</span>
+<span class="err">用户数据层     data / storage / sdcard</span>
+</code></pre></div>
+
+
+<p>这种分层设计是 Android <strong>Treble 架构</strong>的体现，目的是让 Android 系统更新与芯片驱动解耦，OTA 升级时可以只更新 system 而不动 vendor。</p>
+<hr>
+<h2>相关页面</h2>
+<ul>
+<li><a href="./RK_Chip_Use.md">RK_Chip_Use</a> - RK 芯片使用指南</li>
+</ul>
+<hr>
+<p><em>最后更新: 2026-04-30</em></p></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        opencode
+    </span>
+  </span>
+<time datetime="2026-04-30T12:00:00+08:00" pubdate>Thu 30 April 2026</time>  <span class="categories">
+    <a class='category' href='/category/qian-ru-shi-android.html'>嵌入式/Android</a>
+  </span>
+  <span class="categories">
+    <a class="category" href="/tag/qian-ru-shi.html">嵌入式</a>,    <a class="category" href="/tag/rk.html">RK</a>  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/ADB_Use.html">ADB_Use</a>
+      </li>
+      <li class="post">
+          <a href="/AI_Vibe_Coding.html">AI_Vibe_Coding</a>
+      </li>
+      <li class="post">
+          <a href="/Build_Python_From_Source.html">Build_Python_From_Source</a>
+      </li>
+      <li class="post">
+          <a href="/Dabai_Camera_Use.html">Dabai_Camera_Use</a>
+      </li>
+      <li class="post">
+          <a href="/Desktop_Dev_Env_Install.html">Desktop_Dev_Env_Install</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/aiml.html">AI/ML</a></li>
+        <li><a href="/category/article.html">Article</a></li>
+        <li><a href="/category/bian-cheng-yu-yan.html">编程语言</a></li>
+        <li><a href="/category/books.html">Books</a></li>
+        <li><a href="/category/ce-shi.html">测试</a></li>
+        <li><a href="/category/cpp.html">CPP</a></li>
+        <li><a href="/category/import.html">Import</a></li>
+        <li><a href="/category/it.html">IT</a></li>
+        <li><a href="/category/jia-gou-yu-she-ji.html">架构与设计</a></li>
+        <li><a href="/category/kai-fa-gong-ju.html">开发工具</a></li>
+        <li><a href="/category/movie.html">Movie</a></li>
+        <li><a href="/category/qi-ta-gong-ju.html">其他工具</a></li>
+        <li><a href="/category/qian-ru-shi-android.html">嵌入式/Android</a></li>
+        <li><a href="/category/rong-qi-bian-pai.html">容器编排</a></li>
+        <li><a href="/category/ros2.html">ROS2</a></li>
+        <li><a href="/category/shu-ju-ku.html">数据库</a></li>
+        <li><a href="/category/software.html">Software</a></li>
+        <li><a href="/category/tech.html">TECH</a></li>
+        <li><a href="/category/wang-luo-yu-an-quan.html">网络与安全</a></li>
+        <li><a href="/category/web.html">Web</a></li>
+        <li><a href="/category/webkuang-jia.html">Web框架</a></li>
+        <li><a href="/category/wslyu-kai-fa-huan-jing.html">WSL与开发环境</a></li>
+        <li><a href="/category/xing-neng-ce-shi-yu-jian-kong.html">性能测试与监控</a></li>
+        <li><a href="/category/yun-wei-linux.html">运维/Linux</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/tag/gong-ju.html">工具</a>,    <a href="/tag/adb.html">ADB</a>,    <a href="/tag/ai.html">AI</a>,    <a href="/tag/yu-yan.html">语言</a>,    <a href="/tag/python.html">Python</a>,    <a href="/tag/ros2.html">ROS2</a>,    <a href="/tag/web.html">Web</a>,    <a href="/tag/django.html">Django</a>,    <a href="/tag/github.html">GitHub</a>,    <a href="/tag/man.html">man</a>,    <a href="/tag/cli.html">CLI</a>,    <a href="/tag/hf.html">HF</a>,    <a href="/tag/linux.html">Linux</a>,    <a href="/tag/mqtt.html">MQTT</a>,    <a href="/tag/an-quan.html">安全</a>,    <a href="/tag/config.html">Config</a>,    <a href="/tag/nginx.html">Nginx</a>,    <a href="/tag/openclaw.html">OpenClaw</a>,    <a href="/tag/pm2.html">PM2</a>,    <a href="/tag/qian-ru-shi.html">嵌入式</a>,    <a href="/tag/rk.html">RK</a>,    <a href="/tag/fail2ban.html">Fail2Ban</a>,    <a href="/tag/ssh.html">SSH</a>,    <a href="/tag/ag.html">ag</a>,    <a href="/tag/speckit.html">SpecKit</a>,    <a href="/tag/systemd.html">Systemd</a>,    <a href="/tag/conda.html">Conda</a>,    <a href="/tag/djangoninja.html">DjangoNinja</a>,    <a href="/tag/docker.html">Docker</a>,    <a href="/tag/http.html">HTTP</a>,    <a href="/tag/jia-gou.html">架构</a>,    <a href="/tag/firewalld.html">Firewalld</a>,    <a href="/tag/rong-qi.html">容器</a>,    <a href="/tag/gitea.html">Gitea</a>,    <a href="/tag/git.html">Git</a>,    <a href="/tag/go.html">Go</a>,    <a href="/tag/gunicorn.html">Gunicorn</a>,    <a href="/tag/headscale.html">Headscale</a>,    <a href="/tag/huggingface.html">HuggingFace</a>,    <a href="/tag/java.html">Java</a>,    <a href="/tag/k8s.html">K8s</a>,    <a href="/tag/mvt.html">MVT</a>,    <a href="/tag/memmachine.html">MemMachine</a>,    <a href="/tag/db.html">DB</a>,    <a href="/tag/mysql.html">MySQL</a>,    <a href="/tag/nexus.html">Nexus</a>,    <a href="/tag/nmap.html">Nmap</a>,    <a href="/tag/jian-kong.html">监控</a>,    <a href="/tag/gpu.html">GPU</a>,    <a href="/tag/poetry.html">Poetry</a>,    <a href="/tag/ssl.html">SSL</a>,    <a href="/tag/tls.html">TLS</a>,    <a href="/tag/shell.html">Shell</a>,    <a href="/tag/tmux.html">Tmux</a>,    <a href="/tag/uv.html">UV</a>,    <a href="/tag/ubuntu.html">Ubuntu</a>,    <a href="/tag/vim.html">Vim</a>,    <a href="/tag/vue.html">Vue</a>,    <a href="/tag/wsl.html">WSL</a>,    <a href="/tag/whisper.html">Whisper</a>,    <a href="/tag/zsh.html">Zsh</a>,    <a href="/tag/iperf3.html">iperf3</a>,    <a href="/tag/pyenv.html">pyenv</a>,    <a href="/tag/ce-shi.html">测试</a>,    <a href="/tag/pytest.html">pytest</a>,    <a href="/tag/tools.html">Tools</a>,    <a href="/tag/robotics.html">Robotics</a>,    <a href="/tag/it.html">It</a>,    <a href="/tag/tech.html">Tech</a>,    <a href="/tag/code.html">Code</a>,    <a href="/tag/osg.html">Osg</a>,    <a href="/tag/program.html">Program</a>,    <a href="/tag/debug.html">Debug</a>,    <a href="/tag/mac.html">mac</a>,    <a href="/tag/programe.html">Programe</a>,    <a href="/tag/qt.html">Qt</a>,    <a href="/tag/c.html">C++</a>,    <a href="/tag/edu.html">Edu</a>,    <a href="/tag/websec.html">WebSec</a>,    <a href="/tag/pwn.html">PWN</a>,    <a href="/tag/mfc.html">MFC</a>,    <a href="/tag/bash.html">Bash</a>,    <a href="/tag/os.html">os</a>,    <a href="/tag/iot.html">Iot</a>,    <a href="/tag/movie.html">Movie</a>,    <a href="/tag/article.html">Article</a>  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="https://github.com/leelong2020" target="_blank">Github</a></li>
+            <li><a href="https://x.com/leelong2020" target="_blank">X</a></li>
+            <li><a href="https://linkedin.com/in/loonglee2020" target="_blank">Linkedin</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="https://loonglee.site" target="_blank">LoongLee site</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2017&ndash;2026  LoongLee &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+</body>
+</html>
