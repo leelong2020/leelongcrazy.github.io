@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Use CMake &mdash; LoongLee's blog</title>
+  <meta name="author" content="LoongLee">
+
+
+
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="/favicon.png" rel="icon">
+
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/en/">LoongLee's blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+<ul class="main-navigation">
+      <li >
+        <a href="/en/category/aiml.html">Ai/ml</a>
+      </li>
+      <li >
+        <a href="/en/category/article.html">Article</a>
+      </li>
+      <li >
+        <a href="/en/category/bian-cheng-yu-yan.html">编程语言</a>
+      </li>
+      <li >
+        <a href="/en/category/books.html">Books</a>
+      </li>
+      <li >
+        <a href="/en/category/ce-shi.html">测试</a>
+      </li>
+      <li >
+        <a href="/en/category/cpp.html">Cpp</a>
+      </li>
+      <li >
+        <a href="/en/category/devtools.html">Devtools</a>
+      </li>
+      <li >
+        <a href="/en/category/import.html">Import</a>
+      </li>
+      <li class="active">
+        <a href="/en/category/it.html">It</a>
+      </li>
+      <li >
+        <a href="/en/category/jia-gou-yu-she-ji.html">架构与设计</a>
+      </li>
+      <li >
+        <a href="/en/category/kai-fa-gong-ju.html">开发工具</a>
+      </li>
+      <li >
+        <a href="/en/category/movie.html">Movie</a>
+      </li>
+      <li >
+        <a href="/en/category/operationslinux.html">Operations/linux</a>
+      </li>
+      <li >
+        <a href="/en/category/programming.html">Programming</a>
+      </li>
+      <li >
+        <a href="/en/category/qi-ta-gong-ju.html">其他工具</a>
+      </li>
+      <li >
+        <a href="/en/category/qian-ru-shi-android.html">嵌入式/android</a>
+      </li>
+      <li >
+        <a href="/en/category/rong-qi-bian-pai.html">容器编排</a>
+      </li>
+      <li >
+        <a href="/en/category/ros2.html">Ros2</a>
+      </li>
+      <li >
+        <a href="/en/category/shu-ju-ku.html">数据库</a>
+      </li>
+      <li >
+        <a href="/en/category/software.html">Software</a>
+      </li>
+      <li >
+        <a href="/en/category/tech.html">Tech</a>
+      </li>
+      <li >
+        <a href="/en/category/wang-luo-yu-an-quan.html">网络与安全</a>
+      </li>
+      <li >
+        <a href="/en/category/web.html">Web</a>
+      </li>
+      <li >
+        <a href="/en/category/webkuang-jia.html">Web框架</a>
+      </li>
+      <li >
+        <a href="/en/category/wslyu-kai-fa-huan-jing.html">Wsl与开发环境</a>
+      </li>
+      <li >
+        <a href="/en/category/xing-neng-ce-shi-yu-jian-kong.html">性能测试与监控</a>
+      </li>
+      <li >
+        <a href="/en/category/yun-wei-linux.html">运维/linux</a>
+      </li>
+      <li><a href="/">中</a></li>
+      <li><a href="/en/">En</a></li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">Use CMake</h1>
+    <p class="meta">
+<time datetime="2023-04-06T17:00:00+08:00" pubdate>Apr 06, 2023</time>    </p>
+</header>
+
+  <div class="entry-content"><h3>常用命令</h3>
+<ul>
+<li>
+<p>add_executable</p>
+<ul>
+<li>原型: add_executable(<name> [WIN32][MACOSX_BUNDLE] [EXCLUDE_FROM_ALL] source1 source2 … sourceN)</li>
+<li>作用: 用于指定从一组源文件 source1 source2 … sourceN 编译出一个可执行文件且命名为 name</li>
+<li>示例: add_executable(Main ${DIR_SRCS})</li>
+</ul>
+</li>
+<li>
+<p>add_library</p>
+<ul>
+<li>原型: add_library([STATIC | SHARED |MODULE] [EXCLUDE_FROM_ALL] source1 source2 … sourceN)</li>
+<li>作用: 用于指定从一组源文件 source1 source2 … sourceN 编译出一个库文件且命名为 name</li>
+<li>示例: add_library(Lib ${DIR_SRCS})</li>
+</ul>
+</li>
+<li>
+<p>add_subdirectory</p>
+<ul>
+<li>原型: add_subdirectory(source_dir[binary_dir] [EXCLUDE_FROM_ALL])</li>
+<li>作用: 用于添加一个需要进行构建的子目录</li>
+<li>示例: add_subdirectory(Lib)</li>
+</ul>
+</li>
+<li>
+<p>aux_source_directory</p>
+<ul>
+<li>原型: "aux_source_directory(<dir><variable>)</li>
+<li>作用: 用于将 dir 目录下的所有源文件的名字保存在变量variable中</li>
+<li>示例: aux_source_directory(. DIR_SRCS)</li>
+</ul>
+</li>
+<li>
+<p>cmake_minimum_required</p>
+<ul>
+<li>原型: cmake_minimum_required(VERSIONmajor[.minor[.patch[.tweak]]][FATAL_ERROR])</li>
+<li>作用: 用于指定需要的Cmake的最低版本</li>
+<li>示例: cmake_minimum_required(VERSION 2.8)</li>
+</ul>
+</li>
+<li>
+<p>find_library</p>
+<ul>
+<li>原型: find_library (<VAR>name1 [path1 path2 …])</li>
+<li>作用: 用于查找库文件 name1 的路径，如果找到则将路径保存在 VAR中（此路径为一个绝对路径），如果没有找到则结果为<VAR>-NOTFOUND。</li>
+<li>示例:</li>
+</ul>
+</li>
+<li>
+<p>find_path</p>
+<ul>
+<li>原型: find_path(<VAR>name1 [path1 path2 …])</li>
+<li>作用: 用于查找包含文件 name1 的路径，如果找到则将路径保存在 VAR中（此路径为一个绝对路径），如果没有找到则结果为<VAR>-NOTFOUND. 默认的情况下，VAR会被保存在 Cache中，这时候我们需要清除 VAR 才可以进行下一次查询(使用 unset命令)</li>
+<li>示例: find_path(LUA_INCLUDE_PATH lua.h ${LUA_INCLUDE_FIND_PATH})</li>
+</ul>
+</li>
+<li>
+<p>find_package</p>
+<ul>
+<li>原型: FIND_PACKAGE(<name> [major.minor] [QUIET] [NO_MODULE] [[REQUIRED|COMPONENTS] [componets …]])</li>
+<li>作用: 用来调用预定义在CMAKE_MODULE_PATH下的Find<name>.cmake模块,也可以自己定义Find<name>模块,通过SET(CMAKE_MODULE_PATH dir)将其放入工程的某个目录供工程使用</li>
+</ul>
+</li>
+<li>
+<p>mark_as_advanced</p>
+<ul>
+<li>原型: mark_as_advanced([CLEAR|FORCE] <var1> …)</li>
+<li>作用: 标记已命名的缓冲变量为advanced,advanced变量不会在cmake图形界面中显示除非advanced选项开启</li>
+</ul>
+</li>
+<li>
+<p>message</p>
+<ul>
+<li>原型: message([STATUS | WARNING | AUTHOR_WARNING | FATAL_ERROR | SEND_ERROR]“message to display” …)</li>
+<li>作用: 用于输出信息</li>
+<li>示例: message(“Hello World”)</li>
+</ul>
+</li>
+<li>
+<p>project</p>
+<ul>
+<li>原型: project(<projectname>[languageName1 languageName2 … ] )</li>
+<li>作用: 用于指定项目的名称</li>
+<li>示例: project(Main)</li>
+</ul>
+</li>
+<li>
+<p>set</p>
+<ul>
+<li>原型: set(<variable><value> [[CACHE <type> <docstring> [FORCE]] | PARENT_SCOPE])</li>
+<li>作用: 用于设定变量variable的值为value. 如果指定了CACHE变量将被放入Cache（缓存）中</li>
+<li>示例: set(ProjectName Main)</li>
+</ul>
+</li>
+<li>
+<p>target_link_libraries</p>
+<ul>
+<li>原型: target_link_libraries(<target>[item1 [item2 […]]] [[debug | optimized | general] ] …)</li>
+<li>作用: 用于指定target需要链接item1、item2. 这里 target必须已经被创建,链接的item可以是已经存在的target（依赖关系会自动添加）</li>
+<li>示例: target_link_libraries(Main Lib)</li>
+</ul>
+</li>
+</ul></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">
+        LoongLee
+    </span>
+  </span>
+<time datetime="2023-04-06T17:00:00+08:00" pubdate>Apr 06, 2023</time>  <span class="categories">
+    <a class='category' href='/en/category/it.html'>IT</a>
+  </span>
+  <span class="categories">
+    <a class="category" href="/en/tag/code.html">Code</a>,    <a class="category" href="/en/tag/program.html">Program</a>  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/en/ADB_Use.html">ADB_Use</a>
+      </li>
+      <li class="post">
+          <a href="/en/AI_Vibe_Coding.html">AI_Vibe_Coding</a>
+      </li>
+      <li class="post">
+          <a href="/en/Build_Python_From_Source.html">Build_Python_From_Source</a>
+      </li>
+      <li class="post">
+          <a href="/en/Dabai_Camera_Use.html">Dabai_Camera_Use</a>
+      </li>
+      <li class="post">
+          <a href="/en/Desktop_Dev_Env_Install.html">Desktop_Dev_Env_Install</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/en/category/aiml.html">AI/ML</a></li>
+        <li><a href="/en/category/article.html">Article</a></li>
+        <li><a href="/en/category/bian-cheng-yu-yan.html">编程语言</a></li>
+        <li><a href="/en/category/books.html">Books</a></li>
+        <li><a href="/en/category/ce-shi.html">测试</a></li>
+        <li><a href="/en/category/cpp.html">CPP</a></li>
+        <li><a href="/en/category/devtools.html">DevTools</a></li>
+        <li><a href="/en/category/import.html">Import</a></li>
+        <li><a href="/en/category/it.html">IT</a></li>
+        <li><a href="/en/category/jia-gou-yu-she-ji.html">架构与设计</a></li>
+        <li><a href="/en/category/kai-fa-gong-ju.html">开发工具</a></li>
+        <li><a href="/en/category/movie.html">Movie</a></li>
+        <li><a href="/en/category/operationslinux.html">Operations/Linux</a></li>
+        <li><a href="/en/category/programming.html">Programming</a></li>
+        <li><a href="/en/category/qi-ta-gong-ju.html">其他工具</a></li>
+        <li><a href="/en/category/qian-ru-shi-android.html">嵌入式/Android</a></li>
+        <li><a href="/en/category/rong-qi-bian-pai.html">容器编排</a></li>
+        <li><a href="/en/category/ros2.html">ROS2</a></li>
+        <li><a href="/en/category/shu-ju-ku.html">数据库</a></li>
+        <li><a href="/en/category/software.html">Software</a></li>
+        <li><a href="/en/category/tech.html">TECH</a></li>
+        <li><a href="/en/category/wang-luo-yu-an-quan.html">网络与安全</a></li>
+        <li><a href="/en/category/web.html">Web</a></li>
+        <li><a href="/en/category/webkuang-jia.html">Web框架</a></li>
+        <li><a href="/en/category/wslyu-kai-fa-huan-jing.html">WSL与开发环境</a></li>
+        <li><a href="/en/category/xing-neng-ce-shi-yu-jian-kong.html">性能测试与监控</a></li>
+        <li><a href="/en/category/yun-wei-linux.html">运维/Linux</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/en/tag/gong-ju.html">工具</a>,    <a href="/en/tag/adb.html">ADB</a>,    <a href="/en/tag/ai.html">AI</a>,    <a href="/en/tag/yu-yan.html">语言</a>,    <a href="/en/tag/python.html">Python</a>,    <a href="/en/tag/ros2.html">ROS2</a>,    <a href="/en/tag/web.html">Web</a>,    <a href="/en/tag/django.html">Django</a>,    <a href="/en/tag/github.html">GitHub</a>,    <a href="/en/tag/man.html">man</a>,    <a href="/en/tag/cli.html">CLI</a>,    <a href="/en/tag/hf.html">HF</a>,    <a href="/en/tag/linux.html">Linux</a>,    <a href="/en/tag/mqtt.html">MQTT</a>,    <a href="/en/tag/an-quan.html">安全</a>,    <a href="/en/tag/config.html">Config</a>,    <a href="/en/tag/nginx.html">Nginx</a>,    <a href="/en/tag/openclaw.html">OpenClaw</a>,    <a href="/en/tag/pm2.html">PM2</a>,    <a href="/en/tag/qian-ru-shi.html">嵌入式</a>,    <a href="/en/tag/rk.html">RK</a>,    <a href="/en/tag/fail2ban.html">Fail2Ban</a>,    <a href="/en/tag/ssh.html">SSH</a>,    <a href="/en/tag/ag.html">ag</a>,    <a href="/en/tag/speckit.html">SpecKit</a>,    <a href="/en/tag/systemd.html">Systemd</a>,    <a href="/en/tag/conda.html">Conda</a>,    <a href="/en/tag/djangoninja.html">DjangoNinja</a>,    <a href="/en/tag/tools.html">Tools</a>,    <a href="/en/tag/docker.html">Docker</a>,    <a href="/en/tag/http.html">HTTP</a>,    <a href="/en/tag/jia-gou.html">架构</a>,    <a href="/en/tag/firewalld.html">Firewalld</a>,    <a href="/en/tag/rong-qi.html">容器</a>,    <a href="/en/tag/gitea.html">Gitea</a>,    <a href="/en/tag/git.html">Git</a>,    <a href="/en/tag/go.html">Go</a>,    <a href="/en/tag/gunicorn.html">Gunicorn</a>,    <a href="/en/tag/headscale.html">Headscale</a>,    <a href="/en/tag/huggingface.html">HuggingFace</a>,    <a href="/en/tag/java.html">Java</a>,    <a href="/en/tag/k8s.html">K8s</a>,    <a href="/en/tag/mvt.html">MVT</a>,    <a href="/en/tag/memmachine.html">MemMachine</a>,    <a href="/en/tag/db.html">DB</a>,    <a href="/en/tag/mysql.html">MySQL</a>,    <a href="/en/tag/nexus.html">Nexus</a>,    <a href="/en/tag/nmap.html">Nmap</a>,    <a href="/en/tag/jian-kong.html">监控</a>,    <a href="/en/tag/gpu.html">GPU</a>,    <a href="/en/tag/poetry.html">Poetry</a>,    <a href="/en/tag/language.html">Language</a>,    <a href="/en/tag/ssl.html">SSL</a>,    <a href="/en/tag/tls.html">TLS</a>,    <a href="/en/tag/shell.html">Shell</a>,    <a href="/en/tag/tmux.html">Tmux</a>,    <a href="/en/tag/uv.html">UV</a>,    <a href="/en/tag/ubuntu.html">Ubuntu</a>,    <a href="/en/tag/vim.html">Vim</a>,    <a href="/en/tag/vue.html">Vue</a>,    <a href="/en/tag/wsl.html">WSL</a>,    <a href="/en/tag/whisper.html">Whisper</a>,    <a href="/en/tag/zsh.html">Zsh</a>,    <a href="/en/tag/iperf3.html">iperf3</a>,    <a href="/en/tag/pyenv.html">pyenv</a>,    <a href="/en/tag/ce-shi.html">测试</a>,    <a href="/en/tag/pytest.html">pytest</a>,    <a href="/en/tag/robotics.html">Robotics</a>,    <a href="/en/tag/it.html">It</a>,    <a href="/en/tag/tech.html">Tech</a>,    <a href="/en/tag/code.html">Code</a>,    <a href="/en/tag/osg.html">Osg</a>,    <a href="/en/tag/program.html">Program</a>,    <a href="/en/tag/debug.html">Debug</a>,    <a href="/en/tag/mac.html">mac</a>,    <a href="/en/tag/programe.html">Programe</a>,    <a href="/en/tag/qt.html">Qt</a>,    <a href="/en/tag/c.html">C++</a>,    <a href="/en/tag/edu.html">Edu</a>,    <a href="/en/tag/websec.html">WebSec</a>,    <a href="/en/tag/pwn.html">PWN</a>,    <a href="/en/tag/mfc.html">MFC</a>,    <a href="/en/tag/bash.html">Bash</a>,    <a href="/en/tag/os.html">os</a>,    <a href="/en/tag/iot.html">Iot</a>,    <a href="/en/tag/movie.html">Movie</a>,    <a href="/en/tag/article.html">Article</a>  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="https://github.com/leelong2020" target="_blank">Github</a></li>
+            <li><a href="https://x.com/leelong2020" target="_blank">X</a></li>
+            <li><a href="https://linkedin.com/in/loonglee2020" target="_blank">Linkedin</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="https://loonglee.site" target="_blank">LoongLee site</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2017&ndash;2026  LoongLee &mdash;
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+</body>
+</html>
